@@ -1,0 +1,203 @@
+﻿
+@{
+    ViewBag.Title = "Shop";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<div id="section-nav-wrap">
+    <section id="section-nav">
+        <p>Home / Shop / <a href="@Url.Action("Shop","Home")">Danh sách sản phẩm</a></p>
+    </section>
+</div>
+<style>
+    .input-search {
+        border: solid 1mm;
+        width: 100%;
+        border-radius: 7px;
+        height: 30px;
+        margin: 5px 0px 2px 0px;
+        border-color: #00b0ff;
+        text-indent: 9px;
+    }
+    .btn-search {
+        padding: 0 5px 0 5px;
+        width: auto;
+        font-size: 1.5em;
+        color: honeydew;
+        background-color: turquoise;
+        border-radius: 5px;
+    }
+</style>
+<!-- /SECTION-NAV -->
+<!-- SHOP -->
+<div id="shop-wrap">
+    <section id="shop" class="right expandible-sidebar">
+        <!-- SIDEBAR CONTROL -->
+        <div class="sidebar-control">
+            <!-- SVG GEAR -->
+            <svg class="svg-gear">
+                <use xlink:href="#svg-gear"></use>
+            </svg>
+            <!-- /SVG GEAR -->
+        </div>
+        <!-- /SIDEBAR CONTROL -->
+        <!-- SHOP SIDEBAR -->
+        <aside class="shop-sidebar">
+            <!-- SIDEBAR CONTROL -->
+            <svg class="svg-plus sidebar-control">
+                <use xlink:href="#svg-plus"></use>
+            </svg>
+            <!-- /SIDEBAR CONTROL -->
+
+            @Html.Action("ListCategories")
+            <div class="clearfix"></div>
+            @using (Ajax.BeginForm("ListProductShop", "Home", new AjaxOptions { UpdateTargetId = "contentProduct",OnBegin="onLoading" }))
+            {
+                <input type="text" name="searchString" class="input-search" id="keysearch" placeholder="Tìm theo mã hoặc tên ">
+                <input type="submit" value=" Search" class="btn-search">
+            }
+            @* <input type="text" name="searchString" id="keysearch" placeholder="Tìm theo mã hoặc tên ">
+                <input type="submit" value=" Search" class="button" onclick="search2()">*@
+            <!-- /WESTEROS POLL -->
+            @Html.Action("Top5sphotBanner")
+            <figure>
+                <img src="~/Content/images/banners/banner4.jpg" alt="advertising">
+            </figure>
+        </aside>
+        <!-- /SHOP SIDEBAR -->
+        <!-- SHOP PRODUCTS -->
+        <div class="shop-products">
+            <h3 class="title">Tất cả sản phẩm</h3>
+            <figure class="section-banner">
+                <img src="~/Content/images/banners/men-banner.png" alt="men-banner">
+            </figure>
+            <!-- FILTERS -->
+            <div class="filters">
+                <div class="options">
+                    <form class="westeros-form">
+                        <label class="select-block" for="show">
+                            Hiển thị:
+                            <select name="show" id="show">
+                                <option value="9">9 Mục</option>
+                                <option value="20">20 Mục</option>
+                            </select>
+                            <!-- SVG ARROW -->
+                            <svg class="svg-arrow select-arrow">
+                                <use xlink:href="#svg-arrow"></use>
+                            </svg>
+                            <!-- /SVG ARROW -->
+                        </label>
+                    </form>
+                    <!-- VIEW DISPLAY -->
+                    <ul class="display">
+                        <li class="grid selected">
+                            <!-- SVG GRID -->
+                            <svg class="svg-grid">
+                                <use xlink:href="#svg-grid"></use>
+                            </svg>
+                            <!-- /SVG GRID -->
+                        </li>
+                        <li class="list ">
+                            <!-- SVG LIST -->
+                            <svg class="svg-list">
+                                <use xlink:href="#svg-list"></use>
+                            </svg>
+                            <!-- /SVG LIST -->
+                        </li>
+                    </ul>
+                    <!-- /VIEW DISPLAY -->
+                </div>
+            </div>
+            <!-- /FILTERS -->
+            @Html.Action("ListProductShop")
+
+        </div>
+        <!-- /SHOP PRODUCTS -->
+        <div class="clearfix"></div>
+    </section>
+</div>
+<!-- /SHOP -->
+<script>
+
+@*    function search() {
+
+        $.ajax({
+
+            url: '/Home/ListProductShop?searchString=' + $("#keysearch").val(),
+
+            type: 'POST',
+
+            success: function (result) {
+
+                $('#contentProduct').html(result);
+            }
+
+        });
+    };
+*@
+</script>
+@section scripts
+{
+    <script language="javascript" type="text/javascript">
+        var url = "https://bambai.online";
+/*    var url = "https://localhost:44393";*/
+        $(document).ready(function () {
+            $(document).on("click", "#contentPager a[href]", function () {
+                $.ajax({
+                    url: $(this).attr("href"),
+                    type: 'GET',
+                    cache: false,
+                    success: function (result) {
+                        $('#contentProduct').html(result);
+                    }
+                });
+                return false;
+            });
+        });
+        $('#show').on("change", function () {
+            var e = document.getElementById("show");
+            var size = e.value;
+            $.ajax({
+
+                url: url+'/Home/ListProductShop?sizepage=' + size,
+
+                type: 'POST',
+                success: function (result) {
+
+                    $('#contentProduct').html(result);
+                }
+
+            });
+        });
+        function quickview(productid) {
+
+            $.ajax({
+
+                url: url+'/Home/quickview/' + productid,
+
+                type: 'POST',
+
+                cache: false,
+
+                success: function (result) {
+
+                    $('#qv-p7').html(result);
+                }
+
+            });
+
+        };
+        function onLoading() {
+            // Disable the button and hide the other image here
+            // or you can hide the whole div like below
+            swal({
+                title: "Vui lòng chờ",
+                text: "Waiting......",
+                icon: "/Content/images/loading.gif",
+                buttons: false,
+                closeOnClickOutside: false,
+                timer: 1000
+            });
+        }
+    </script>
+}

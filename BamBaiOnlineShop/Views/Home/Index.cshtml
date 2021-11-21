@@ -1,0 +1,297 @@
+﻿<!-- BANNER -->
+<div id="banner-wrap">
+    <section id="banner">
+        <div class="main-promo">
+            <h2 style="color: rgb(73, 85, 92); ">Chào mừng đến với<br><span>BamBai</span></h2>
+            <p style=" color: rgb(73, 85, 92);">Thỏa sức đam mê thời trang với những phong cách độc đáo đem lại những khác biệt.</p>
+            <a href="@Url.Action("Shop","Home")" class="button secondary">Đi đến cửa hàng</a>
+        </div>
+        <div id="banner-monster">
+
+
+            <div id="stars">
+                <div class="star small"></div>
+                <div class="star medium"></div>
+                <div class="star large"></div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /BANNER -->
+<!-- ADVERTISING -->
+<div id="advertising-wrap">
+    <section id="advertising">
+@*        <div class="ad-box clearfix">
+            <a href="#">
+                <img src="~/Content/images/banners/banner1.png" alt="banner1">
+            </a>
+            <a href="#">
+                <img src="~/Content/images/banners/banner2.png" alt="banner2">
+            </a>
+        </div>*@
+        <a href="#">
+            <img src="~/Content/images/banners/banner3.png" alt="banner3">
+        </a>
+    </section>
+</div>
+<!-- /ADVERTISING -->
+<!-- PRODUCT SHOWCASE -->
+@Html.Action("ListProduct")
+<!-- /PRODUCT SHOWCASE -->
+<!-- PRODUCT SHOWCASE -->
+@Html.Action("Top5sphotList")
+<!-- /PRODUCT SHOWCASE -->
+<!-- INSTITUTIONAL -->
+<div id="institutional-wrap">
+    <section id="institutional">
+        <h3 class="title">Tại sao nên chọn chúng tôi?</h3>
+        <!-- BULLETS -->
+        <ul class="bullets">
+            <!-- BULLET -->
+            <li>
+                <!-- SVG GLOBE -->
+                <svg class="svg-globe">
+                    <use xlink:href="#svg-globe"></use>
+                </svg>
+                <!-- /SVG GLOBE -->
+                <h6>Giao hàng toàn quốc</h6>
+                <p>Chúng tôi hỗ trợ giao hàng toàn quốc với chi phí tiết kiệm nhất.</p>
+            </li>
+            <!-- /BULLET -->
+            <!-- BULLET -->
+            <li>
+                <!-- SVG TRUCK -->
+                <svg class="svg-truck">
+                    <use xlink:href="#svg-truck"></use>
+                </svg>
+                <!-- /SVG TRUCK -->
+                <h6>Vận chuyể hỏa tốc</h6>
+                <p>Bạn có thể tự do lựa chọn các hình thức vận chuyển phù hợp.</p>
+            </li>
+            <!-- /BULLET -->
+            <!-- BULLET -->
+            <li>
+                <!-- SVG RIBBON -->
+                <svg class="svg-ribbon">
+                    <use xlink:href="#svg-ribbon"></use>
+                </svg>
+                <!-- /SVG RIBBON -->
+                <h6>Sản phẩm chất lượng</h6>
+                <p>BamBai luôn hướng tới những xu hướng thời trang hot,đem đến những sản phẩm tốt nhất.</p>
+            </li>
+            <!-- /BULLET -->
+            <!-- BULLET -->
+            <li>
+                <!-- SVG PIGGY -->
+                <svg class="svg-piggy">
+                    <use xlink:href="#svg-piggy"></use>
+                </svg>
+                <!-- /SVG PIGGY -->
+                <h6>Khuyến mãi và hoàn tiền</h6>
+                <p>Đi kèm dịch vụ bán hàng là những chương trình khuyến mãi và các chính sách dành riêng cho thành viên tiêu chuẩn.</p>
+            </li>
+            <!-- /BULLET -->
+            <!-- BULLET -->
+            <li>
+                <!-- SVG CUSTOMER SERVICE -->
+                <svg class="svg-customer-service">
+                    <use xlink:href="#svg-customer-service"></use>
+                </svg>
+                <!-- /SVG CUSTOMER SERVICE -->
+                <h6>24/7 Hỗ trợ khách hàng</h6>
+                <p>Nhằm đem lại những dịch vụ tốt nhất.Với đội ngũ chăm sóc khách hàng 24/7.</p>
+            </li>
+            <!-- /BULLET -->
+            <!-- BULLET -->
+            <li>
+                <!-- SVG CHAT -->
+                <svg class="svg-chat">
+                    <use xlink:href="#svg-chat"></use>
+                </svg>
+                <!-- /SVG CHAT -->
+                <h6>Chat trực tuyến</h6>
+                <p>Khách hàng có thể chat trực tuyến với các nhân viên cửa hàng.</p>
+            </li>
+            <!-- /BULLET -->
+        </ul>
+        <!-- /BULLETS -->
+    </section>
+</div>
+<!-- /INSTITUTIONAL -->
+<!-- LATEST BLOG POSTS -->
+@Html.Action("ListBlog")
+
+<!-- /LATEST BLOG POSTS -->
+<!-- BILLBOARD -->
+<div id="billboard-wrap">
+    <section id="billboard">
+        <h3 class="title">BamBai Hỗ trợ</h3>
+        <!-- ACCORDION -->
+        <ul class="accordion">
+            <!--ACCORDION ITEM-->
+            <li>
+                <a href="#">
+                    <h6>BamBai là gì?</h6>
+                    <svg class="plus">
+                        <rect class="vertical" x="4" width="4" height="12" />
+                        <rect y="4" width="12" height="4" />
+                    </svg>
+                </a>
+                <ul class="sub-items">
+                    <li>
+                        <p>BamBai được hiểu như một thương hiệu mới với những ý nghĩa và nguyên nhân sâu xa .</p>
+                    </li>
+                </ul>
+            </li>
+            <!--/ACCORDION ITEM-->
+            <!--ACCORDION ITEM-->
+            <li>
+                <a href="#">
+                    <h6>Tạo một tài khoản</h6>
+                    <svg class="plus">
+                        <rect class="vertical" x="4" width="4" height="12" />
+                        <rect y="4" width="12" height="4" />
+                    </svg>
+                </a>
+                <ul class="sub-items">
+                    <li>
+                        <p>Bạn có thể tạo tài khoản bằng cách truy cập ngay <a href="@Url.Action("Index","LoginUser")">đây</a>.</p>
+                    </li>
+                </ul>
+            </li>
+            <!--/ACCORDION ITEM-->
+            <!--ACCORDION ITEM-->
+            <li>
+                <a href="#">
+                    <h6>Làm cách nào để mua sản phẩm?</h6>
+                    <svg class="plus">
+                        <rect class="vertical" x="4" width="4" height="12" />
+                        <rect y="4" width="12" height="4" />
+                    </svg>
+                </a>
+                <ul class="sub-items">
+                    <li>
+                        <p>Sau khi có tài khoản và đăng nhập thành công bạn có thể thỏai mái đặt mua các sản phẩm trên website chúng tôi.<span style="color:orangered">Đừng quên cập nhật thông tin cá nhân sau khi đăng ký tài khoản để chúng tôi có thể hỗ trợ cho bạn một cách tốt nhất</span> .</p>
+                    </li>
+                </ul>
+            </li>
+            <!--/ACCORDION ITEM-->
+            <!--ACCORDION ITEM-->
+            <li>
+                <a href="#">
+                    <h6>Vận chuyển và thanh toán</h6>
+                    <svg class="plus">
+                        <rect class="vertical" x="4" width="4" height="12" />
+                        <rect y="4" width="12" height="4" />
+                    </svg>
+                </a>
+                <ul class="sub-items">
+                    <li>
+                        <p>Sau khi đặt hàng thành công.Chúng tôi sẽ liên hệ với bạn để xác nhận thông tin một cách chính xác đảm bảo không có sai sót.<span style="color:red">Thanh toán khi nhận hàng</span></p>
+                    </li>
+                </ul>
+            </li>
+            <!--/ACCORDION ITEM-->
+        </ul>
+        <!-- /ACCORDION -->
+        <div class="sale-promo" style="height:280px;width:570px">
+            <img src="https://m.media-amazon.com/images/S/aplus-media/sc/791d0600-808f-44cd-85ad-36c7bb8717da.__CR0,0,970,600_PT0_SX970_V1___.jpg" style="position:unset" height="100%" width="100%" alt="bunny-monster">
+        </div>
+    </section>
+</div>
+<!-- /BILLBOARD -->
+<!-- BRANDS -->
+<div id="brands-wrap">
+    <section id="brands">
+        <h3 class="title">Nhãn hiệu</h3>
+        <div class="slidable">
+            <!-- SLIDE CONTROLS -->
+            <ul class="slide-controls">
+                <!-- LEFT CONTROL -->
+                <li>
+                    <a href="#" class="button prev">
+                        <!-- SVG ARROW -->
+                        <svg class="svg-arrow">
+                            <use xlink:href="#svg-arrow"></use>
+                        </svg>
+                        <!-- /SVG ARROW -->
+                    </a>
+                </li>
+                <!-- /LEFT CONTROL -->
+                <!-- RIGHT CONTROL -->
+                <li>
+                    <a href="#" class="button next">
+                        <!-- SVG ARROW -->
+                        <svg class="svg-arrow">
+                            <use xlink:href="#svg-arrow"></use>
+                        </svg>
+                        <!-- /SVG ARROW -->
+                    </a>
+                </li>
+                <!-- /RIGHT CONTROL -->
+            </ul>
+            <!-- /SLIDE CONTROLS -->
+            <!-- BRANDS LIST -->
+            <ul id="owl-brands" class="brands-list owl-carousel">
+                <!-- BRAND -->
+                <li>
+                    <a>
+                        <img src="~/Content/images/brands/gr.png" alt="brand-normal">
+                        <img src="~/Content/images/brands/gr-over.png" alt="brand-over">
+                    </a>
+                </li>
+                <!-- /BRAND -->
+                <!-- BRAND -->
+                <li>
+                    <a>
+                        <img src="~/Content/images/brands/tf.png" alt="brand-normal">
+                        <img src="~/Content/images/brands/tf-over.png" alt="brand-over">
+                    </a>
+                </li>
+                <!-- /BRAND -->
+                <!-- BRAND -->
+                <li>
+                    <a>
+                        <img src="~/Content/images/brands/aj.png" alt="brand-normal">
+                        <img src="~/Content/images/brands/aj-over.png" alt="brand-over">
+                    </a>
+                </li>
+                <!-- /BRAND -->
+                <!-- BRAND -->
+                <li>
+                    <a>
+                        <img src="~/Content/images/brands/vh.png" alt="brand-normal">
+                        <img src="~/Content/images/brands/vh-over.png" alt="brand-over">
+                    </a>
+                </li>
+                <!-- /BRAND -->
+                <!-- BRAND -->
+                <li>
+                    <a>
+                        <img src="~/Content/images/brands/pd.png" alt="brand-normal">
+                        <img src="~/Content/images/brands/pd-over.png" alt="brand-over">
+                    </a>
+                </li>
+                <!-- /BRAND -->
+                <!-- BRAND -->
+                <li>
+                    <a>
+                        <img src="~/Content/images/brands/gr.png" alt="brand-normal">
+                        <img src="~/Content/images/brands/gr-over.png" alt="brand-over">
+                    </a>
+                </li>
+                <!-- /BRAND -->
+                <!-- BRAND -->
+                <li>
+                    <a>
+                        <img src="~/Content/images/brands/tf.png" alt="brand-normal">
+                        <img src="~/Content/images/brands/tf-over.png" alt="brand-over">
+                    </a>
+                </li>
+                <!-- /BRAND -->
+            </ul>
+            <!-- /BRANDS LIST -->
+        </div>
+    </section>
+</div>
+<!-- /BRANDS -->

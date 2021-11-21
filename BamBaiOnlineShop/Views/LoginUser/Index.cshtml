@@ -1,0 +1,177 @@
+﻿@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- SECTION-NAV -->
+<div id="section-nav-wrap">
+    <section id="section-nav">
+        <p>Home / <a href="#">Đăng nhập và đăng ký</a></p>
+    </section>
+</div>
+<!-- /SECTION-NAV -->
+<!-- REGISTER-LOGIN -->
+<div id="register-login-wrap">
+    <section id="register-login">
+        <div class="featured-form">
+            <h3>Đăng ký thành viên mới!</h3>
+            <form id="resgisterForm" class="westeros-form" action="@Url.Action("Reg","LoginUser")" method="post">
+                <label class="rl-label">Tên người dùng</label>
+                <input type="text" placeholder="Nhập tên người dùng..." name="UserName" required="">
+                <label class="rl-label required">Email</label>
+                <input type="text" placeholder="Nhập email của bạn..." name="Email" required="">
+                <label class="rl-label required">Mật khẩu</label>
+                <input type="text" placeholder="Nhập mật khẩu..." name="PassWord">
+                <button class="button register" type="submit">Đăng ký tài khoản</button>
+            </form>
+        </div>
+
+        <div class="featured-form">
+            <h3>Đăng nhập tài khoản</h3>
+            <form id="loginForm" class="westeros-form" action="@Url.Action("Login","LoginUser")" method="post">
+                <label class="rl-label">Email</label>
+                <input type="text" name="UserName" placeholder="Nhập Email..." required="">
+                <label class="rl-label">Mật khẩu</label>
+                <input type="text" name="Password" placeholder="Nhập mật khẩu..." required="">
+                <a href="@Url.Action("ResetPass","LoginUser")" class="fp-msg">Quên mật khẩu? Click here!</a>
+                <div class="g-recaptcha" style="display:table-caption" data-sitekey="6LeaUpEbAAAAAE_FUXY-yFQ9RA4EAJaer4hmJYBt"></div>
+                <button class="button login" type="submit">Đăng nhập ngay!</button>
+               
+            </form>
+        </div>
+    </section>
+</div>
+<!-- /REGISTER-LOGIN -->
+<!-- ADVERTISING -->
+<!-- /ADVERTISING -->
+<!-- BRANDS -->
+<div id="brands-wrap">
+    <section id="brands">
+        <h3 class="title">Nhãn hiệu</h3>
+        <div class="slidable">
+            <!-- SLIDE CONTROLS -->
+            <ul class="slide-controls">
+                <!-- LEFT CONTROL -->
+                <li>
+                    <a href="#" class="button prev">
+                        <!-- SVG ARROW -->
+                        <svg class="svg-arrow">
+                            <use xlink:href="#svg-arrow"></use>
+                        </svg>
+                        <!-- /SVG ARROW -->
+                    </a>
+                </li>
+                <!-- /LEFT CONTROL -->
+                <!-- RIGHT CONTROL -->
+                <li>
+                    <a href="#" class="button next">
+                        <!-- SVG ARROW -->
+                        <svg class="svg-arrow">
+                            <use xlink:href="#svg-arrow"></use>
+                        </svg>
+                        <!-- /SVG ARROW -->
+                    </a>
+                </li>
+                <!-- /RIGHT CONTROL -->
+            </ul>
+            <!-- /SLIDE CONTROLS -->
+            <!-- BRANDS LIST -->
+            <ul id="owl-brands" class="brands-list owl-carousel">
+                <!-- BRAND -->
+                <li>
+                    <a href="#">
+                        <img src="~/Content/images/brands/gr.png" alt="brand-normal">
+                        <img src="~/Content/images/brands/gr-over.png" alt="brand-over">
+                    </a>
+                </li>
+                <!-- /BRAND -->
+                <!-- BRAND -->
+                <li>
+                    <a href="#">
+                        <img src="~/Content/images/brands/tf.png" alt="brand-normal">
+                        <img src="~/Content/images/brands/tf-over.png" alt="brand-over">
+                    </a>
+                </li>
+                <!-- /BRAND -->
+                <!-- BRAND -->
+                <li>
+                    <a href="#">
+                        <img src="~/Content/images/brands/aj.png" alt="brand-normal">
+                        <img src="~/Content/images/brands/aj-over.png" alt="brand-over">
+                    </a>
+                </li>
+                <!-- /BRAND -->
+                <!-- BRAND -->
+                <li>
+                    <a href="#">
+                        <img src="~/Content/images/brands/vh.png" alt="brand-normal">
+                        <img src="~/Content/images/brands/vh-over.png" alt="brand-over">
+                    </a>
+                </li>
+                <!-- /BRAND -->
+                <!-- BRAND -->
+                <li>
+                    <a href="#">
+                        <img src="~/Content/images/brands/pd.png" alt="brand-normal">
+                        <img src="~/Content/images/brands/pd-over.png" alt="brand-over">
+                    </a>
+                </li>
+                <!-- /BRAND -->
+                <!-- BRAND -->
+                <li>
+                    <a href="#">
+                        <img src="~/Content/images/brands/gr.png" alt="brand-normal">
+                        <img src="~/Content/images/brands/gr-over.png" alt="brand-over">
+                    </a>
+                </li>
+                <!-- /BRAND -->
+                <!-- BRAND -->
+                <li>
+                    <a href="#">
+                        <img src="~/Content/images/brands/tf.png" alt="brand-normal">
+                        <img src="~/Content/images/brands/tf-over.png" alt="brand-over">
+                    </a>
+                </li>
+                <!-- /BRAND -->
+            </ul>
+            <!-- /BRANDS LIST -->
+        </div>
+    </section>
+</div>
+<!-- /BRANDS -->
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#resgisterForm').submit(function () {
+                // DO STUFF...
+                if (grecaptcha.getResponse() == "") {
+                    swal({
+                        title: "Warning!",
+                        text: "Vui lòng xác thực bảo mật captcha",
+                        icon: "error",
+                        button: "OK",
+                        timer: 3000,
+                    });
+                    return false;
+                } else {
+                    return true; // return false to cancel form action
+                }
+            });
+            $('#loginForm').submit(function () {
+                // DO STUFF...
+                if (grecaptcha.getResponse() == "") {
+                    swal({
+                        title: "Warning!",
+                        text: "Vui lòng xác thực bảo mật captcha",
+                        icon: "error",
+                        button: "OK",
+                        timer: 3000,
+                    });
+                    return false;
+                } else {
+                    return true; // return false to cancel form action
+                }
+            });
+        });
+
+    </script>
+}

@@ -1,0 +1,223 @@
+﻿@model List<BamBaiOnlineShop.Models.Category>
+
+<style>
+.none-event{
+  color:skyblue;
+}
+</style>
+<h3 class="title">Danh mục sản phẩm</h3>
+<!-- ACCORDION -->
+<ul class="accordion">
+    <li>
+        <a>
+            <h6>Tất cả</h6>
+            <svg class="plus">
+                <rect class="vertical" x="3" width="3" height="9" />
+                <rect y="3" width="9" height="3" />
+            </svg>
+        </a>
+        <ul class="sub-items">
+            <li>
+                <!-- ITEM LIST -->
+                <ul>
+                    @foreach (var item in Model)
+                    {
+                        <!--ACCORDION ITEM-->
+                        <li onclick="searchByCateg(@item.CategoryID)">
+                            <a class="none-event">
+                                <svg class="svg-arrow">
+                                    <use xlink:href="#svg-arrow"></use>
+                                </svg>
+                                @item.CategoryName (@item.Products.Count(x => x.CategoryID == item.CategoryID))
+
+
+                            </a>
+                        </li>
+                        <!--/ACCORDION ITEM-->
+                    }
+                </ul>
+                <!-- /ITEM LIST -->
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a>
+            <h6>Áo</h6>
+            <svg class="plus">
+                <rect class="vertical" x="3" width="3" height="9" />
+                <rect y="3" width="9" height="3" />
+            </svg>
+        </a>
+        <ul class="sub-items">
+            <li>
+                <!-- ITEM LIST -->
+                <ul>
+                    @foreach (var item in Model)
+                    {
+                        if (item.CategoryID.Equals(11))
+                        {
+                            <!--ACCORDION ITEM-->
+                            <li onclick="searchByCateg(@item.CategoryID)">
+                                <a class="none-event">
+                                    <svg class="svg-arrow">
+                                        <use xlink:href="#svg-arrow"></use>
+                                    </svg>
+                                    @item.CategoryName (@item.Products.Count(x => x.CategoryID == item.CategoryID))
+                                </a>
+                            </li>
+                            <!--/ACCORDION ITEM-->
+                        }
+                    }
+                    @foreach (var item in Model)
+                    {
+                        if (item.CategoryID.Equals(12))
+                        {
+                            <!--ACCORDION ITEM-->
+                            <li onclick="searchByCateg(@item.CategoryID)">
+                                <a class="none-event">
+                                    <svg class="svg-arrow">
+                                        <use xlink:href="#svg-arrow"></use>
+                                    </svg>
+                                    @item.CategoryName (@item.Products.Count(x => x.CategoryID == item.CategoryID))
+
+
+                                </a>
+                            </li>
+                            <!--/ACCORDION ITEM-->
+                        }
+                    }
+                    @foreach (var item in Model)
+                    {
+                        if (item.CategoryID.Equals(13))
+                        {
+                            <!--ACCORDION ITEM-->
+                            <li onclick="searchByCateg(@item.CategoryID)">
+                                <a class="none-event">
+                                    <svg class="svg-arrow">
+                                        <use xlink:href="#svg-arrow"></use>
+                                    </svg>
+                                    @item.CategoryName (@item.Products.Count(x => x.CategoryID == item.CategoryID))
+
+
+                                </a>
+                            </li>
+                            <!--/ACCORDION ITEM-->
+                        }
+                    }
+                </ul>
+                <!-- /ITEM LIST -->
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="">
+            <h6>Quần</h6>
+            <svg class="plus">
+                <rect class="vertical" x="3" width="3" height="9" />
+                <rect y="3" width="9" height="3" />
+            </svg>
+        </a>
+        <ul class="sub-items">
+            <li>
+                <!-- ITEM LIST -->
+                <ul>
+                    @foreach (var item in Model)
+                    {
+                        if (item.CategoryID.Equals(14))
+                        {
+                            <!--ACCORDION ITEM-->
+                            <li onclick="searchByCateg(@item.CategoryID)">
+                                <a class="none-event">
+                                    <svg class="svg-arrow">
+                                        <use xlink:href="#svg-arrow"></use>
+                                    </svg>
+                                    @item.CategoryName (@item.Products.Count(x => x.CategoryID == item.CategoryID))
+
+
+                                </a>
+                            </li>
+                            <!--/ACCORDION ITEM-->
+                        }
+                    }
+                    @foreach (var item in Model)
+                    {
+                        if (item.CategoryID.Equals(15))
+                        {
+                            <!--ACCORDION ITEM-->
+                            <li onclick="searchByCateg(@item.CategoryID)">
+                                <a class="none-event">
+                                    <svg class="svg-arrow">
+                                        <use xlink:href="#svg-arrow"></use>
+                                    </svg>
+                                    @item.CategoryName (@item.Products.Count(x => x.CategoryID == item.CategoryID))
+
+
+                                </a>
+                            </li>
+                            <!--/ACCORDION ITEM-->
+                        }
+                    }
+
+                </ul>
+                <!-- /ITEM LIST -->
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="">
+            <h6>Phụ Kiện </h6>
+            <svg class="plus">
+                <rect class="vertical" x="3" width="3" height="9" />
+                <rect y="3" width="9" height="3" />
+            </svg>
+        </a>
+        <ul class="sub-items">
+            <li>
+                <!-- ITEM LIST -->
+                <ul>
+                    @foreach (var item in Model)
+                    {
+                        if (item.CategoryID.Equals(18))
+                        {
+                            <!--ACCORDION ITEM-->
+                            <li onclick="searchByCateg(@item.CategoryID)">
+                                <a class="none-event">
+                                    <svg class="svg-arrow">
+                                        <use xlink:href="#svg-arrow"></use>
+                                    </svg>
+                                    @item.CategoryName (@item.Products.Count(x => x.CategoryID == item.CategoryID))
+
+
+                                </a>
+                            </li>
+                            <!--/ACCORDION ITEM-->
+                        }
+                    }
+
+                </ul>
+                <!-- /ITEM LIST -->
+            </li>
+        </ul>
+    </li>
+</ul>
+<!-- /ACCORDION -->
+<script>
+    var url = "https://bambai.online";
+/*    var url = "https://localhost:44393";*/
+    function searchByCateg(cid) {
+
+        $.ajax({
+
+            url: url+'/Home/ListProductShop?cid=' + cid,
+
+            type: 'POST',
+
+            success: function (result) {
+
+                $('#contentProduct').html(result);
+            }
+
+        });
+    };
+
+</script>

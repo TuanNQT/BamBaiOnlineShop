@@ -1,0 +1,41 @@
+﻿@*@model List<BamBaiOnlineShop.Models.CommentDetail>*@
+@model PagedList.IPagedList<BamBaiOnlineShop.Models.CommentDetail>
+@using PagedList.Mvc;
+<!-- COMMENTS -->
+<div id="content-comment">
+    <article class="comments">
+        <h3 class="title">Bình luận (@Model.Count())</h3>
+        <!-- COMMENT LIST -->
+        <ul class="comment-list">
+            @foreach (var item in Model)
+            {
+                <!-- COMMENT -->
+                <li>
+                    <!-- AVATAR -->
+                    <div class="avatar">
+                        <figure class="liquid">
+                            <img src="~/Content/images/blog/avatar01.jpg" alt="avatar-img">
+                        </figure>
+                    </div>
+                    <!-- /AVATAR -->
+                    <p class="highlighted">@item.datecomment</p>
+                    <h6>@item.Customer.FullName</h6>
+                    <p>@item.content</p>
+                </li>
+                <!-- /COMMENT -->
+            }
+
+        </ul>
+        <!-- /COMMENT LIST -->
+    </article>
+    <!-- COMMENTS -->
+    <!-- PAGER -->
+    @foreach (var item in Model)
+    {
+        <div id="contentPagerDetailsPost">
+            @Html.PagedListPager(Model, page => Url.Action("Commentshow", new { page, cm = item.postid }))
+        </div>
+        break;
+    }
+    <!-- /PAGER -->
+</div>

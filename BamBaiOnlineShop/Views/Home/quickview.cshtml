@@ -1,0 +1,213 @@
+﻿@model List<BamBaiOnlineShop.Models.Product>
+@using BamBaiOnlineShop.Models
+@{
+    var session = (Userlogin)Session[BamBaiOnlineShop.Models.CommonConstants.USER_SESSION];
+}
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .img-magnifier-container {
+        position: relative;
+    }
+
+    .img-magnifier-glass {
+        position: absolute;
+        border: 3px solid #000;
+        border-radius: 50%;
+        cursor: none;
+        /*Set the size of the magnifier glass:*/
+        width: 100px;
+        height: 100px;
+    }
+
+    figure.zoom {
+        background-position: 50% 50%;
+        position: relative;
+        width: 500px;
+        overflow: hidden;
+        cursor: zoom-in;
+    }
+
+        figure.zoom img:hover {
+            opacity: 0;
+        }
+
+        figure.zoom img {
+            transition: opacity 0.5s;
+            display: block;
+            width: 100%;
+        }
+</style>
+@foreach (var item in Model)
+{
+    <!-- PRODUCT PICTURES -->
+    <div class="product-pictures">
+        <div class="product-photo">
+            <figure class="zoom" style="background:url('/Content/images/items/@item.ProductImage')" onmousemove="zoom(event)" ontouchmove="zoom(event)">
+                <img src="~/Content/images/items/@item.ProductImage" style="max-height:100%;max-width:100%" width="auto" height="auto" alt="Girl" />
+            </figure>
+
+            @*<figure class="liquid">
+                    <div class="img-magnifier-container">
+                        <img id="myimage" src="~/Content/images/items/@item.ProductImage" style="max-height:100%;max-width:100%" width="auto" height="auto" alt="Girl">
+                    </div>
+                </figure>*@
+        </div>
+    </div>
+    <!-- /PRODUCT PICTURES -->
+    <!-- PRODUCT DESCRIPTION -->
+    <div class="product-description">
+        <a href="#"><p class="highlighted category">@item.Category.CategoryName</p></a>
+        <a href="#"><h6>@item.ModelName</h6></a>
+        <!-- RATING -->
+        <ul class="rating big">
+            <li class="filled">
+                <!-- SVG STAR -->
+                <svg class="svg-star">
+                    <use xlink:href="#svg-star"></use>
+                </svg>
+                <!-- /SVG STAR -->
+            </li>
+            <li class="filled">
+                <!-- SVG STAR -->
+                <svg class="svg-star">
+                    <use xlink:href="#svg-star"></use>
+                </svg>
+                <!-- /SVG STAR -->
+            </li>
+            <li class="filled">
+                <!-- SVG STAR -->
+                <svg class="svg-star">
+                    <use xlink:href="#svg-star"></use>
+                </svg>
+                <!-- /SVG STAR -->
+            </li>
+            <li class="filled">
+                <!-- SVG STAR -->
+                <svg class="svg-star">
+                    <use xlink:href="#svg-star"></use>
+                </svg>
+                <!-- /SVG STAR -->
+            </li>
+            <li>
+                <!-- SVG STAR -->
+                <svg class="svg-star">
+                    <use xlink:href="#svg-star"></use>
+                </svg>
+                <!-- /SVG STAR -->
+            </li>
+        </ul>
+        <!-- /RATING -->
+        <p>@item.Description</p>
+        <p class="highlighted current">@((float)item.UnitCost)</p>
+        @*<p class="highlighted previous">$90.25</p>*@
+        @if (item.Status == true)
+        {
+            <h5 class="stock">
+                Trạng thái:
+                <!-- SVG CHECK -->
+                <svg class="svg-check">
+                    <use xlink:href="#svg-check"></use>
+                </svg>
+                <!-- /SVG CHECK -->
+                <span class="available">Còn hàng</span>
+            </h5>
+        }
+        else
+        {
+            <h5 class="stock">
+                Trạng thái:
+                <!-- SVG CHECK -->
+                <svg class="svg-plus">
+                    <use xlink:href="#svg-plus"></use>
+                </svg>
+                <!-- /SVG CHECK -->
+                <span class="not-available">Hết hàng</span>
+            </h5>
+
+        }
+    <div class="options">
+        <a href="#" class="button medium fb"></a>
+        <a href="#" class="button medium twt"></a>
+
+        @if (session != null)
+        {
+            using (Ajax.BeginForm("addWishList", "Home", new { id = item.ProductID }, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "alertsuccess", OnFailure = "alearterror",OnBegin="onLoading" }, null))
+            {
+
+                <a class="button medium wishlist" style="margin-right:5px">
+                    <button type="submit" style="cursor:pointer">
+                        <svg class="svg-wishlist">
+                            <use xlink:href="#svg-wishlist"></use>
+                        </svg>
+                    </button>
+                </a>
+
+            }
+            if (item.Status == true)
+            {
+                using (Ajax.BeginForm("addCart", "Home", new { soluong = 1, id = item.ProductID }, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "alertsuccess", OnFailure = "alearterror",OnBegin="onLoading" }, null))
+                {
+
+                    <button type="submit" style="margin-left:5px;float:left">
+                        <a class="button cart-add">
+                            <!-- SVG PLUS -->
+                            <svg class="svg-plus">
+                                <use xlink:href="#svg-plus"></use>
+                            </svg>
+                            <!-- /SVG PLUS -->
+                           Thêm vào giỏ
+                        </a>
+                    </button>
+
+                }
+            }
+            else
+            {
+                <a href="#" class="button no-stock">
+                    <!-- SVG PLUS -->
+                    <svg class="svg-plus">
+                        <use xlink:href="#svg-plus"></use>
+                    </svg>
+                    <!-- /SVG PLUS -->
+                   Hết hàng
+                </a>
+            }
+
+
+
+        }
+        else
+        {
+            <a href="@Url.Action("Index","LoginUser")" class="button medium wishlist">
+                <!-- SVG WISHLIST -->
+                <svg class="svg-wishlist">
+                    <use xlink:href="#svg-wishlist"></use>
+                </svg>
+                <!-- /SVG WISHLIST -->
+            </a>
+            <a href="@Url.Action("Index","LoginUser")" class="button cart-add">
+                <!-- SVG PLUS -->
+                <svg class="svg-plus">
+                    <use xlink:href="#svg-plus"></use>
+                </svg>
+                <!-- /SVG PLUS -->
+               Đăng nhập
+            </a>
+        }
+    </div>
+    </div>
+    <!-- /PRODUCT DESCRIPTION -->
+}
+<script>
+    function zoom(e) {
+        var zoomer = e.currentTarget;
+        e.offsetX ? offsetX = e.offsetX : offsetX = e.touches[0].pageX
+        e.offsetY ? offsetY = e.offsetY : offsetX = e.touches[0].pageX
+        x = (offsetX / zoomer.offsetWidth) * 100
+        y = (offsetY / zoomer.offsetHeight) * 100
+        zoomer.style.backgroundPosition = x + "% " + y + "%";
+    }
+</script>

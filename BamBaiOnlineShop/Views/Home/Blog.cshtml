@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "Blog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<!-- SECTION-NAV -->
+<div id="section-nav-wrap">
+    <section id="section-nav">
+        <p>Home / Blog / <a href="@Url.Action("Blog","Home")">All Blog</a></p>
+    </section>
+</div>
+<!-- /SECTION-NAV -->
+<!-- SHOP -->
+<div id="shop-wrap">
+    <section id="shop" class="right expandible-sidebar">
+        <!-- SIDEBAR CONTROL -->
+        <div class="sidebar-control">
+            <!-- SVG GEAR -->
+            <svg class="svg-gear">
+                <use xlink:href="#svg-gear"></use>
+            </svg>
+            <!-- /SVG GEAR -->
+        </div>
+        <!-- /SIDEBAR CONTROL -->
+        <!-- SHOP SIDEBAR -->
+        <aside class="shop-sidebar">
+            <!-- SIDEBAR CONTROL -->
+            <svg class="svg-plus sidebar-control">
+                <use xlink:href="#svg-plus"></use>
+            </svg>
+            <!-- /SIDEBAR CONTROL -->
+            @Html.Action("ListTypeBlog")
+            @Html.Action("Top5blogBanner")
+            @Html.Action("Top5sphotBanner")
+        </aside>
+        <!-- /SHOP SIDEBAR -->
+        <!-- SHOP PRODUCTS -->
+        <div class="shop-products">
+            <h3 class="title">Bambai Blog</h3>
+         
+            @Html.Action("ListBlogShop")
+        </div>
+       
+        <!-- /SHOP PRODUCTS -->
+        <div class="clearfix"></div>
+    </section>
+</div>
+<!-- /SHOP -->
+@section scripts
+{
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            $(document).on("click", "#contentPagerBlog a[href]", function () {
+                $.ajax({
+                    url: $(this).attr("href"),
+                    type: 'GET',
+                    cache: false,
+                    success: function (result) {
+                        $('#contentBlog').html(result);
+                    }
+                });
+                return false;
+            });
+        });
+@*        $('#show').on("change", function () {
+            var e = document.getElementById("show");
+            var size = e.value;
+            $.ajax({
+
+                url: '/Home/ListProductShop?sizepage=' + size,
+
+                type: 'POST',
+                success: function (result) {
+
+                    $('#contentProduct').html(result);
+                }
+
+            });
+        });
+*@
+    </script>
+}

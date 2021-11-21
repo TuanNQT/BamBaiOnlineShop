@@ -1,0 +1,60 @@
+﻿
+<!DOCTYPE HTML>
+<html ng-app="SignupApp">
+<head>
+    <title>BamBai Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="BamBai Shop Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <link href="~/Areas/Content/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <link href="~/Areas/Content/css/style.css" rel='stylesheet' type='text/css' />
+    <link href="~/Areas/Content/css/font-awesome.css" rel="stylesheet">
+    <script src="~/Areas/Content/js/jquery.min.js"></script>
+    <script src="~/Areas/Content/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="login">
+        <h1><a href="index.html">BamBai Shop </a></h1>
+        <div class="login-bottom" ng-controller="SignupCtrl">
+            <form name="reg">
+                <h2>Đăng ký</h2>
+                <div class="col-md-6">
+                    <div class="login-mail">
+                        <input type="text" placeholder="Email" required="" ng-model="taikhoan">
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                    <div class="login-mail">
+                        <input type="password" placeholder="Password" required="" ng-model="matkhau">
+                        <i class="fa fa-lock"></i>
+                    </div>
+                    <div class="login-mail">
+                        <input type="password" placeholder="Repeated password" required="" ng-model="matkhauxn">
+                        <i class="fa fa-lock"></i>
+                    </div>
+                </div>
+
+                <div class="col-md-6 login-do">
+                    <label class="hvr-shutter-in-horizontal login-sub">
+                        <input type="submit" value="Submit" ng-click="Signup()">
+                    </label>
+                    <p>Already register</p>
+                    <a href="@Url.Action("Index","LoginSigninAdmin")" class="hvr-shutter-in-horizontal">Login</a>
+                </div>
+            </form>
+            <div class="clearfix"> </div>
+        </div>
+    </div>
+    <!---->
+    <!---->
+    <!--scrolling js-->
+    <script src="~/AngularController/AngularCodeSignup.js"></script>
+    <script src="~/Areas/Content/js/jquery.nicescroll.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Areas/Content/js/scripts.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!--//scrolling js-->
+</body>
+</html>
+

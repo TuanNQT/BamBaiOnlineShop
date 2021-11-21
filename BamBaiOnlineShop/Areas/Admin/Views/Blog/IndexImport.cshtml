@@ -1,0 +1,121 @@
+﻿
+@{ Layout = null; }
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Import bài viết bằng Excel</title>
+    <link href="@Url.Content("~/Areas/Content/ContentImport/bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Areas/Content/ContentImport/dataTables.bootstrap4.min.css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Areas/Content/ContentImport/jquery-3.4.1.min.js")"></script>
+    <script src="@Url.Content("~/Areas/Content/ContentImport/bootstrap.min.js")"></script>
+    <script src="@Url.Content("https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.1/xlsx.full.min.js")"></script>
+    <script src="@Url.Content("http://oss.sheetjs.com/js-xlsx/jszip.js")"></script>
+    <script src="@Url.Content("https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js")"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="@Url.Content("~/AngularController/ImportBlogs.js")"></script>
+    <script src="@Url.Content("~/Areas/Content/ContentImport/jquery.dataTables.min.js")"></script>
+    <script src="@Url.Content("/Areas/Content/ContentImport/dataTables.bootstrap4.min.js")"></script>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var url = "https://bambai.online";
+            $('#dataTable').DataTable({
+                "ajax": {
+                    "url":url+ "/Admin/Blog/GetBlogs",
+                    "type": "GET",
+                    "datatype": "json",
+                },
+                "columns": [
+                    { "data": "Postid" },
+                    { "data": "TypeName" },
+                    { "data": "Title" },
+                    {
+                        "data": "datepost",
+                        render: function (data, type, row) {//data
+                            return moment(row.datepost).format('DD/MM/YYYY');//or another format you wantt.
+                        }
+                    },
+                    { "data": "content" },
+                    { "data": "view" },
+                    { "data": "comment" },
+                    {
+                        "data": "image",
+                        "render": function (url, type, full) {
+                            return '<img class="img-responsive" src="/Content/images/blog/' + url + '" height="150" width="150" alt="Alternate Text" />';
+
+                        }
+                    },
+                    { "data": "writer" }
+                ]
+            });
+        });</script>
+</head>
+<body ng-app="MyApp">
+    <div class="container py-4" ng-controller="MyController">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="">Danh sách bài viết</h5>
+            </div>
+            <div class="card-body">
+                <button style="margin-bottom:10px;" type="button" class="btn btn-primary rounded-0" data-toggle="modal" data-target="#myModal">
+                    <i class="fa fa-file-excel-o"></i> Upload Excel File
+                </button>
+                <button style="margin-bottom:10px;" type="button" class="btn btn-primary rounded-0">
+                    <a href="@Url.Action("Index","Default")" style="text-decoration:none">
+                        <span style="color:white">Trở lại trang quản trị</span>
+                    </a>
+                </button>
+                <div class="modal" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Upload Blogs Result</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col-md-12">
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" name="file" class="custom-file-input" onchange="angular.element(this).scope().UploadFile(this.files)" />
+                                            <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button" ng-disabled="!SelectedFileForUpload" ng-click="ParseExcelDataAndSave()"><i class="fa fa-upload"></i> Upload</button>
+                                        </div>
+                                    </div>
+                                    <span class="text-success">
+                                        {{Message}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger rounded-0" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table id="dataTable" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Danh mục</th>
+                            <th>Tiêu đề</th>
+                            <th>Ngày đăng</th>
+                            <th>Nội dung</th>
+                            <th>Lượt view</th>
+                            <th>Lượt comment</th>
+                            <th>Ảnh</th>
+                            <th>Người đăng</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

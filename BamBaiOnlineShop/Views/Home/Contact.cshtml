@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Title = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- SECTION-NAV -->
+<div id="content-contact">
+    <div id="section-nav-wrap">
+        <section id="section-nav">
+            <p>Home / <a href="contact.html">Liên hệ</a></p>
+        </section>
+    </div>
+    <!-- /SECTION-NAV -->
+    <!-- CONTACT -->
+    <div id="contact-wrap">
+        <section id="contact">
+            <!-- CONTACT FORM -->
+            <div class="contact-form">
+                <h3 class="title">Liên hệ</h3>
+                <!-- CONTACT DETAILS -->
+                <div class="contact-details">
+                    <p>Nếu bạn có thắc mắc cần giúp đỡ hay phản hồi.Liên hệ ngay với chúng tôi</p>
+                    <!-- CONTACT INFO -->
+                    <ul class="contact-info">
+                        <li class="address">
+                            <!-- SVG PIN -->
+                            <svg class="svg-pin">
+                                <use xlink:href="#svg-pin"></use>
+                            </svg>
+                            <!-- /SVG PIN -->
+                            <p>20 Nam Từ Liêm, Mỹ Đình, Hà Nội</p>
+                        </li>
+                        <li class="phone">
+                            <!-- SVG PHONE -->
+                            <svg class="svg-phone">
+                                <use xlink:href="#svg-phone"></use>
+                            </svg>
+                            <!-- /SVG PHONE -->
+                            <p>(+84) 98648374</p>
+                        </li>
+                        <li class="email">
+                            <!-- SVG ENVELOPE -->
+                            <svg class="svg-envelope">
+                                <use xlink:href="#svg-envelope"></use>
+                            </svg>
+                            <!-- /SVG ENVELOPE -->
+                            <p><a href="mailto:ngocandrong0@gmail.com">ngocandrong0@gmail.com</a></p>
+                        </li>
+                    </ul>
+                    <!-- /CONTACT INFO -->
+                    <h5>Kêt nối!</h5>
+                    <!-- SOCIAL LINKS -->
+                    <ul class="social-links">
+                        <li class="fb"><a href="https://www.facebook.com/Shop-Th%E1%BB%9Di-Trang-BamBai-108020367239224"></a></li>
+                        <li class="twt"><a href="https://www.facebook.com/Shop-Th%E1%BB%9Di-Trang-BamBai-108020367239224"></a></li>
+                        <li class="gplus"><a href="https://www.facebook.com/Shop-Th%E1%BB%9Di-Trang-BamBai-108020367239224"></a></li>
+                        <li class="db"><a href="https://www.facebook.com/Shop-Th%E1%BB%9Di-Trang-BamBai-108020367239224"></a></li>
+                        <li class="rss"><a href="https://www.facebook.com/Shop-Th%E1%BB%9Di-Trang-BamBai-108020367239224"></a></li>
+                        <li class="vm"><a href="https://www.facebook.com/Shop-Th%E1%BB%9Di-Trang-BamBai-108020367239224"></a></li>
+                    </ul>
+                    <!-- /SOCIAL LINKS -->
+                </div>
+                <!-- /CONTACT DETAILS -->
+                <div class="featured-form">
+                    <form id="formContact" class="westeros-form" action="@Url.Action("SendEmail","Home")" method="post">
+                        <label class="rl-label required" style="font-size:20px;font-weight:bold">Tên bạn</label>
+                        <input type="text" placeholder="Nhập tên của bạn..." name="name" required="" style="font-size:17px">
+                        <label class="rl-label required" style="font-size:20px;font-weight:bold">Email</label>
+                        <input type="text" placeholder="Nhập email của bạn..." name="email" required="" style="font-size:17px">
+                        <label class="rl-label required" style="font-size:20px;font-weight:bold">Tiêu đề</label>
+                        <input type="text" placeholder="Nhập tiêu đề" name="subject" required="" style="font-size:17px">
+                        <label class="rl-label required" style="font-size:20px;font-weight:bold">Nội dung</label>
+                        <textarea placeholder="Nhập nội dung..." name="message" required="" style="font-size:17px "></textarea>
+                        <b>@ViewBag.message</b>
+                        <div class="g-recaptcha" data-sitekey="6LeaUpEbAAAAAE_FUXY-yFQ9RA4EAJaer4hmJYBt"></div>
+                        <button class="button" type="submit">Gửi phản hồi</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- /CONTACT FORM -->
+        </section>
+    </div>
+    <!-- /CONTACT -->
+    <!--MAP-->
+    <section id="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d59595.50270232083!2d105.74829393484526!3d21.003901468907785!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135adea0f7f2a5b%3A0xf6b9c3d350bf9c7!2zQ8O0bmcgdHkgVE5ISCDEkOG6p3UgdMawIHbDoCBwaMOhdCB0cmnhu4NuIGPDtG5nIG5naOG7hyBNSUcgVmnhu4d0!5e0!3m2!1svi!2s!4v1623749148056!5m2!1svi!2s" width="1420" height="400" style="border:0;" allowfullscreen="" loading="lazy">    </iframe>
+    </section>
+</div>
+<!--/MAP-->
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#formContact').submit(function () {
+                // DO STUFF...
+                if (grecaptcha.getResponse() == "") {
+                    swal({
+                        title: "Warning!",
+                        text: "Vui lòng xác thực bảo mật captcha",
+                        icon: "error",
+                        button: "OK",
+                        timer: 3000,
+                    });
+                    return false;
+                } else {
+                    return true; // return false to cancel form action
+                }
+            });
+        });
+
+    </script>
+}
+

@@ -1,0 +1,137 @@
+﻿@model BamBaiOnlineShop.Models.Blog
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "DetailPost";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using BamBaiOnlineShop.Models
+@{
+    var session = (Userlogin)Session[BamBaiOnlineShop.Models.CommonConstants.USER_SESSION];
+}
+<!-- SECTION-NAV -->
+<div id="section-nav-wrap">
+    <section id="section-nav">
+        <p>Home / @Model.TypeBlog.TypeName / <a href="#">@Model.Title</a></p>
+    </section>
+</div>
+<!-- /SECTION-NAV -->
+<!-- SHOP -->
+<div id="shop-wrap">
+    <section id="shop" class="right expandible-sidebar">
+        <!-- SIDEBAR CONTROL -->
+        <div class="sidebar-control">
+            <!-- SVG GEAR -->
+            <svg class="svg-gear">
+                <use xlink:href="#svg-gear"></use>
+            </svg>
+            <!-- /SVG GEAR -->
+        </div>
+        <!-- /SIDEBAR CONTROL -->
+        <!-- SHOP SIDEBAR -->
+        <aside class="shop-sidebar">
+            <!-- SIDEBAR CONTROL -->
+            <svg class="svg-plus sidebar-control">
+                <use xlink:href="#svg-plus"></use>
+            </svg>
+            <!-- /SIDEBAR CONTROL -->
+            @Html.Action("ListTypeBlog")
+            @Html.Action("Top5blogBanner")
+            @Html.Action("Top5sphotBanner")
+        </aside>
+        <!-- /SHOP SIDEBAR -->
+        <!-- SHOP PRODUCTS -->
+        <div class="shop-products">
+            <h3 class="title">Chi tiết bài viết</h3>
+            <!-- BLOG POST -->
+            <article class="blog-post">
+                <figure class="liquid">
+                    <img src="~/Content/images/blog/@Model.image" alt="post-img">
+                </figure>
+                <!-- CONTENT -->
+                <div class="content">
+                    <p class="highlighted">@Model.writer | @Model.datepost</p>
+                    <h6>@Model.Title</h6>
+                    <div class="meta">
+                        <p class="views">
+                            <!-- SVG QUICKVIEW -->
+                            <svg class="svg-quickview">
+                                <use xlink:href="#svg-quickview"></use>
+                            </svg>
+                            <!-- /SVG QUICKVIEW -->
+                            @Model.view
+                        </p>
+                        <p class="comments">
+                            <!-- SVG COMMENT -->
+                            <svg class="svg-comment">
+                                <use xlink:href="#svg-comment"></use>
+                            </svg>
+                            <!-- /SVG COMMENT -->
+                            @Model.comment
+                        </p>
+                        <p class="paragraph" style="font-size:18px;margin-top:15px">@Model.content</p>
+                    </div>
+                    <!-- /CONTENT -->
+                    <!-- SHARE -->
+                    <div class="share">
+                        <h6>Chia sẻ bài viết:</h6>
+                        <a href="#" class="button medium fb"></a>
+                        <a href="#" class="button medium twt"></a>
+                        <a href="#" class="button medium gplus"></a>
+                        <a href="#" class="button medium rss"></a>
+                        <a href="#" class="button medium dribble"></a>
+                        <a href="#" class="button medium vimeo"></a>
+                        <a href="#" class="button medium flickr"></a>
+                    </div>
+                    <!-- /SHARE -->
+            </article>
+            <!-- /BLOG POST -->
+            @Html.Action("Commentshow", new { cm = Model.Postid })
+
+            <!-- COMMENT FORM -->
+            <article class="comment-form">
+                <h3 class="title">Để lại bình luận</h3>
+                <div class="featured-form">
+                    <form class="westeros-form" action="@Url.Action("CommentAdd","Home")" method="post">
+                        <input name="pid" type="number" hidden value="@Model.Postid" />
+                        <label for="comment" class="rl-label required">Bình luận của bạn</label>
+                        <textarea name="content" placeholder="Nhập nội dung ..." required></textarea>
+                        @if (session != null)
+                        {
+                            <button class="button" type="submit">Đăng bình luận</button>
+                        }
+                        else
+                        {
+
+                            <a href="@Url.Action("Index","LoginUser")" class="button">
+                                Đăng nhập để bình luận
+                            </a>
+
+                        }
+                    </form>
+                </div>
+            </article>
+            <!-- /COMMENT FORM -->
+        </div>
+        <!-- /SHOP PRODUCTS -->
+        <div class="clearfix"></div>
+    </section>
+</div>
+<!-- /SHOP -->
+@section scripts
+    {
+        <script language="javascript" type="text/javascript">
+            $(document).ready(function () {
+                $(document).on("click", "#contentPagerDetailsPost a[href]", function () {
+                    $.ajax({
+                        url: $(this).attr("href"),
+                        type: 'GET',
+                        cache: false,
+                        success: function (result) {
+                            $('#content-comment').html(result);
+                        }
+                    });
+                    return false;
+                });
+            });
+        </script>
+    }

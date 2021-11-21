@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "Reg";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Đăng ký tài khoản</h2>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Message
+    </div>
+}
+<a href="@Url.Action("Index","LoginUser")">Trở lại</a>

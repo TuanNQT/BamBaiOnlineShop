@@ -1,0 +1,61 @@
+﻿@model List<BamBaiOnlineShop.Models.sellerBest>
+
+<h3 class="title">Sản phẩm hot</h3>
+<!-- PRODUCT PREVIEW -->
+<ul class="product-preview">
+    @foreach (var item in Model)
+    {
+        <li>
+            <a href="@Url.Action("DetailProduct",new { id=item.ProID })">
+                <div class="picture">
+                    <figure class="liquid">
+                        <img src="~/Content/images/items/@item.Hinh" alt="product1">
+                    </figure>
+                </div>
+            </a>
+            <a href="@Url.Action("DetailProduct",new { id=item.ProID })"><h6>@item.ProName</h6></a>
+            <!-- RATING -->
+            <ul class="rating">
+                <li class="filled">
+                    <!-- SVG STAR -->
+                    <svg class="svg-star">
+                        <use xlink:href="#svg-star"></use>
+                    </svg>
+                    <!-- /SVG STAR -->
+                </li>
+                <li class="filled">
+                    <!-- SVG STAR -->
+                    <svg class="svg-star">
+                        <use xlink:href="#svg-star"></use>
+                    </svg>
+                    <!-- /SVG STAR -->
+                </li>
+                <li class="filled">
+                    <!-- SVG STAR -->
+                    <svg class="svg-star">
+                        <use xlink:href="#svg-star"></use>
+                    </svg>
+                    <!-- /SVG STAR -->
+                </li>
+                <li class="filled">
+                    <!-- SVG STAR -->
+                    <svg class="svg-star">
+                        <use xlink:href="#svg-star"></use>
+                    </svg>
+                    <!-- /SVG STAR -->
+                </li>
+                <li class="filled">
+                    <!-- SVG STAR -->
+                    <svg class="svg-star">
+                        <use xlink:href="#svg-star"></use>
+                    </svg>
+                    <!-- /SVG STAR -->
+                </li>
+            </ul>
+            <!-- /RATING -->
+            <p class="highlighted current" style="font-size:0.8em">Doanh thu @((decimal)item.DoanhThu)</p>
+        </li>
+    }
+
+</ul>
+<!-- /PRODUCT PREVIEW -->

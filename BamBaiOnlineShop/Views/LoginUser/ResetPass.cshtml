@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "ResetPass";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .center {
+        align-items: center;
+    }
+
+    .form-inline {
+        padding-left: 120px;
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+    }
+
+        .form-inline label {
+            margin: 5px 10px 5px 0;
+        }
+
+        .form-inline input {
+            vertical-align: middle;
+            margin: 5px 10px 5px 0;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        .form-inline button {
+            padding: 10px 20px;
+            background-color: dodgerblue;
+            border: 1px solid #ddd;
+            color: white;
+            cursor: pointer;
+        }
+
+            .form-inline button:hover {
+                background-color: royalblue;
+            }
+
+    @@media (max-width: 800px) {
+        .form-inline input {
+            margin: 10px 0;
+        }
+        .center {
+            margin: auto;
+            width: 80%;
+            padding: 10px;
+        }
+        .form-inline {
+            flex-direction: column;
+            align-items: center;
+            padding:unset
+        }
+    }
+</style>
+
+
+<div class="center">
+    <div>
+        <h2 style="text-align:center;color:black;margin:15px">Đặt lại mật khẩu</h2>
+    </div>
+    <form id="getCodeForm" class="form-inline" action="@Url.Action("SendCode","LoginUser")" method="post">
+        <label for="email">Email:</label>
+        <input type="email" placeholder="Nhập Email" name="email" required>
+        <button type="submit">Lấy mã</button> <div style="margin-left:20px" class="g-recaptcha" data-sitekey="6LeaUpEbAAAAAE_FUXY-yFQ9RA4EAJaer4hmJYBt"></div>
+    </form>
+    <form id="resetPassForm" class="form-inline" action="@Url.Action("ResetPass","LoginUser")" method="post">
+        <label for="email">Email:</label>
+        <input type="email" placeholder="Nhập Email" name="email" required>
+        <label for="email">Mã reset:</label>
+        <input type="text" placeholder="Nhập mã" name="code" required>
+        <label for="pwd">Mật khẩu mới:</label>
+        <input type="password" id="pwd" placeholder="Nhập mật khẩu mới" name="newpass" required>
+        <button type="submit">Gửi</button>
+    </form>
+    <h3 style="color:darkslategrey;margin-top:10px;margin-bottom:10px" class="form-inline">
+        @ViewBag.message
+    </h3>
+
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#getCodeForm').submit(function () {
+                // DO STUFF...
+                if (grecaptcha.getResponse() == "") {
+                    swal({
+                        title: "Warning!",
+                        text: "Vui lòng xác thực bảo mật captcha",
+                        icon: "error",
+                        button: "OK",
+                        timer: 3000,
+                    });
+                    return false;
+                } else {
+                    return true; // return false to cancel form action
+                }
+            });
+            $('#resetPassForm').submit(function () {
+                // DO STUFF...
+                if (grecaptcha.getResponse() == "") {
+                    swal({
+                        title: "Warning!",
+                        text: "Vui lòng xác thực bảo mật captcha",
+                        icon: "error",
+                        button: "OK",
+                        timer: 3000,
+                    });
+                    return false;
+                } else {
+                    return true; // return false to cancel form action
+                }
+            });
+        });
+
+    </script>
+}

@@ -1,0 +1,178 @@
+﻿@model PagedList.IPagedList<BamBaiOnlineShop.Models.WishList>
+@using PagedList.Mvc;
+@using BamBaiOnlineShop.Models
+@{
+    var session = (Userlogin)Session[BamBaiOnlineShop.Models.CommonConstants.USER_SESSION];
+}
+<style>
+    .product-info {
+        display: -webkit-box;
+        -webkit-line-clamp: 7;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+<div id="content-wishlist">
+    <!-- SHOPPING CART -->
+    <div class="shopping-cart wishlist-cart">
+        <!-- ROW -->
+        <div class="row header">
+            <!-- CELL -->
+            <div class="cell">
+                <h5>Thông tin sản phẩm</h5>
+            </div>
+            <!-- /CELL -->
+            <!-- CELL -->
+            <div class="cell">
+                <h5>Giá sản phẩm</h5>
+            </div>
+            <!-- /CELL -->
+            <!-- CELL -->
+            <div class="cell">
+                <h5>Số lượng</h5>
+            </div>
+            <!-- /CELL -->
+            <!-- CELL -->
+            <div class="cell">
+                Chức năng
+            </div>
+            <!-- /CELL -->
+        </div>
+        <!-- /ROW -->
+        @foreach (var item in Model)
+        {
+            <!-- ROW -->
+            <div class="row">
+                <!-- CELL -->
+                <div class="cell cart-item">
+                    <div class="product-picture">
+                        <figure class="liquid">
+                            <img src="~/Content/images/items/@item.Product.ProductImage" alt="product-picture">
+                        </figure>
+                    </div>
+                    <p class="highlighted">@item.Product.Category.CategoryName</p>
+                    <h3>@item.Product.ModelName</h3>
+                    <p class="product-info">@item.Product.Description</p>
+                </div>
+                <!-- /CELL -->
+                <!-- CELL -->
+                <div class="cell">
+                    <p class="highlighted">@item.Product.UnitCost</p>
+                </div>
+                <!-- /CELL -->
+                <!-- CELL -->
+                <div class="cell">
+                    <!-- COUNTER -->
+                    <div class="counter">
+                        <div class="control left"></div>
+                        <div class="value">
+                            <h5>1</h5>
+                        </div>
+                        <div class="control right"></div>
+                    </div>
+                    <!-- /COUNTER -->
+                </div>
+                <!-- /CELL -->
+                <!-- CELL -->
+                <div class="cell buttons big" style="height:125px">
+                    <div class="actions">
+                        @using (Ajax.BeginForm("addCart", "Home", new { soluong = 1, id = item.ProductID }, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "alertsuccess", OnFailure = "alearterror", OnBegin = "onLoading" }, null))
+                        {
+                            <a class="button cart-add">
+                                <button type="submit" style="display:inline-block;background-color:transparent;color:white">
+
+                                    <!-- SVG PLUS -->
+                                    <svg class="svg-plus">
+                                        <use xlink:href="#svg-plus"></use>
+                                    </svg>
+                                    <!-- /SVG PLUS -->
+                                    Thêm vào giỏ
+
+                                </button>
+                            </a>
+
+                        }
+                        <!-- ACTIONS -->
+
+                        @using (Ajax.BeginForm("xoaWishList", "Home", new { id = item.ProductID }, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "alertsuccess", OnFailure = "alearterror", OnBegin = "onLoading" }, null))
+                        {
+                            <button type="submit" style="margin-right:40px">
+                                <a class="button medium no-stock">
+                                    <!-- SVG PLUS -->
+                                    <svg class="svg-plus">
+                                        <use xlink:href="#svg-plus"></use>
+                                    </svg>
+                                    <!-- /SVG PLUS -->
+                                </a>
+                            </button>
+                        }
+                    </div>
+                    <!-- /ACTIONS -->
+                </div>
+                <!-- /CELL -->
+            </div>
+            <!-- /ROW -->
+        }
+
+    </div>
+    <!-- /SHOPPING CART -->
+    <!-- PAGER -->
+    <div id="contentPagerWishList">
+        @Html.PagedListPager(Model, page => Url.Action("ShowWishList", new { page }))
+    </div>
+    <!-- /PAGER -->
+
+</div>
+<script>
+    var url = "https://bambai.online";
+/*    var url = "https://localhost:44393";*/
+    function alerterror(data) {
+        console.log(data);
+        swal({
+            title: "Lỗi gì đó!",
+            text: "Thêm thất bại",
+            icon: "error",
+            button: "OK",
+            timer: 2000,
+        });
+    };
+    function alertsuccess(data) {
+        console.log(data)
+        swal({
+            title: "Thanks You!",
+            text: "Thành công",
+            icon: "success",
+            button: "OK",
+            timer: 2000,
+        });
+        $.ajax({
+
+            url: url+'/Home/ShowWishList/',
+
+            type: 'POST',
+
+            cache: false,
+
+            success: function (result) {
+
+                $('#content-wishlist').html(result);
+            }
+
+        });
+        $.ajax({
+
+            url: url+'/Home/QuickViewCart/',
+
+            type: 'POST',
+
+            cache: false,
+
+            success: function (result) {
+
+                $('#quickviewcart').html(result);
+            }
+
+        });
+        @* $('#quickviewcart').load('/Home/QuickViewCart');*@
+    }
+</script>

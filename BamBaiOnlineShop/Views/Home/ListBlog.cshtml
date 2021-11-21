@@ -1,0 +1,94 @@
+﻿@model List<BamBaiOnlineShop.Models.Blog>
+<style>
+    .content-blog {
+        display: -webkit-box;
+        -webkit-line-clamp: 7;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .title-blog {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size:15px;
+        font-weight:bold;
+        height:50px
+    }
+</style>
+<div id="latest-blog-posts-wrap">
+    <section id="latest-blog-posts">
+        <h3 class="title">Bài viết chú ý</h3>
+        <div class="slidable">
+            <!-- SLIDE CONTROLS -->
+            <ul class="slide-controls">
+                <!-- LEFT CONTROL -->
+                <li>
+                    <a href="#" class="button prev">
+                        <!-- SVG ARROW -->
+                        <svg class="svg-arrow">
+                            <use xlink:href="#svg-arrow"></use>
+                        </svg>
+                        <!-- /SVG ARROW -->
+                    </a>
+                </li>
+                <!-- /LEFT CONTROL -->
+                <!-- RIGHT CONTROL -->
+                <li>
+                    <a href="#" class="button next">
+                        <!-- SVG ARROW -->
+                        <svg class="svg-arrow">
+                            <use xlink:href="#svg-arrow"></use>
+                        </svg>
+                        <!-- /SVG ARROW -->
+                    </a>
+                </li>
+                <!-- /RIGHT CONTROL -->
+            </ul>
+            <!-- /SLIDE CONTROLS -->
+            <!-- BLOG POST PREVIEW -->
+            <ul id="owl-blog-posts" class="blog-post-preview grid owl-carousel">
+                @foreach (var item in Model)
+                {
+                    <!-- POST ITEM -->
+                    <li class="list-item">
+                        <a href="@Url.Action("DetailPost",new { id=item.Postid })">
+                            <figure>
+                                <img src="~/Content/images/blog/@item.image" alt="post1">
+                            </figure>
+                        </a>
+                        <div class="content">
+                            <p class="highlighted">@item.writer | @item.datepost</p>
+                            <a href="@Url.Action("DetailPost",new { id=item.Postid })"><p class="title-blog">@item.Title</p></a>
+                            <p class="content-blog">@item.content</p>
+                        </div>
+                        <div class="actions">
+                            <p class="views">
+                                <!-- SVG QUICKVIEW -->
+                                <svg class="svg-quickview">
+                                    <use xlink:href="#svg-quickview"></use>
+                                </svg>
+                                <!-- /SVG QUICKVIEW -->
+                                @item.view
+                            </p>
+                            <p class="comments">
+                                <!-- SVG COMMENT -->
+                                <svg class="svg-comment">
+                                    <use xlink:href="#svg-comment"></use>
+                                </svg>
+                                <!-- /SVG COMMENT -->
+                                @item.comment
+                            </p>
+                            <a href="@Url.Action("DetailPost",new { id=item.Postid })">Đọc thêm...</a>
+                        </div>
+                    </li>
+                    <!-- /POST ITEM -->
+                }
+
+            </ul>
+            <!-- /BLOG POST PREVIEW -->
+        </div>
+    </section>
+</div>
+

@@ -1,0 +1,192 @@
+﻿@model List<BamBaiOnlineShop.Models.ShoppingCart>
+@using BamBaiOnlineShop.Models
+@{
+    var session = (Userlogin)Session[BamBaiOnlineShop.Models.CommonConstants.USER_SESSION];
+}
+<style>
+    .name-quickview {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+@if (Model.Count != 0)
+{
+    <!-- CART -->
+    <ul class="cart westeros-dropdown">
+        @foreach (var item in Model)
+        {
+
+            <!-- CART ITEM -->
+        <li class="item clearfix">
+            <div>
+                <div class="picture">
+                    <figure class="liquid">
+                        <img src="~/Content/images/items/@item.Product.ProductImage" alt="product1">
+                    </figure>
+                </div>
+                <div class="description">
+                    <p class="highlighted category" style="margin:unset">@item.Product.Category.CategoryName</p>
+                    <a href="@Url.Action("DetailProduct",new { id=item.ProductID })">   <h6 class="name-quickview" style="margin-top:10px">@item.Product.ModelName</h6></a>
+                </div>
+                <div class="quantity">
+                    <h6>@item.Quantity</h6>
+                </div>
+                <div class="price">
+                    <p class="highlighted">@((float)item.Product.UnitCost)</p>
+                </div>
+                @using (Ajax.BeginForm("xoaCart", "Home", new { id = item.ProductID }, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "xoaCartSuccess", OnFailure = "xoaCartError", OnBegin = "onLoading" }, null))
+                {
+                    <button type="submit">
+                        <img src="~/Content/images/items/remove.png" alt="remove">
+                    </button>
+                }
+            </div>
+            </li>
+            <!-- /CART ITEM -->
+        }
+        <!-- TOTAL -->
+        <li class="total clearfix">
+            <div>
+                <p class="highlighted">@((float)Model.Sum(x => x.thanhtien))</p>
+            </div>
+            <div>
+                <h6>Tổng tiền</h6>
+            </div>
+        </li>
+        <!-- /TOTAL -->
+        <!-- ORDER -->
+        <li class="order clearfix">
+            @using (Ajax.BeginForm("addOrder", "Home", new { }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "addOrdersuccess", OnFailure = "addOrdererror", OnBegin = "onLoading" }, null))
+            {
+            <a class="button">
+                <button type="submit" style="background-color: transparent; color: white; font-weight: bold;">Đặt hàng</button>
+            </a>
+            
+ 
+            }
+            
+            <a href="@Url.Action("ViewCart","Home")" class="button secondary">Đến giỏ hàng</a>
+        </li>
+        <!-- /ORDER -->
+    </ul>
+    <!-- /CART -->
+}
+else
+{
+    <!-- CART -->
+    <ul class="cart westeros-dropdown">
+        <!-- TOTAL -->
+        <li class="total clearfix">
+            <div>
+                <h6>Giỏ hàng trống</h6>
+            </div>
+        </li>
+        <!-- /TOTAL -->
+    </ul>
+    <!-- /CART -->
+}
+<script>
+    var url = "https://bambai.online";
+/*    var url = "https://localhost:44393";*/
+    function xoaCartError(data) {
+        console.log(data);
+        swal({
+            title: "Some Error!",
+            text: data.msg,
+            icon: "error",
+            button: "OK",
+            timer: 2000,
+        });
+    };
+    function xoaCartSuccess(data) {
+        console.log(data)
+        swal({
+            title: "Thanks You!",
+            text: data.msg,
+            icon: "success",
+            button: "OK",
+            timer: 2000,
+        });
+        $.ajax({
+
+            url: url+'/Home/ListCart/',
+
+            type: 'POST',
+
+            cache: false,
+
+            success: function (result) {
+
+                $('#content-cartlist').html(result);
+            }
+
+        });
+        $.ajax({
+
+            url: url+'/Home/QuickViewCart/',
+
+            type: 'POST',
+
+            cache: false,
+
+            success: function (result) {
+
+                $('#quickviewcart').html(result);
+            }
+        });
+    }
+    function addOrdererror(data) {
+        console.log(data);
+        swal({
+            title: "Some Error!",
+            text: data.msg,
+            icon: "error",
+            button: "OK",
+            timer: 2000,
+        });
+    };
+    function addOrdersuccess(data) {
+        console.log(data)
+        var icon
+        if (data.code == 200) {
+            icon = "success"
+        }
+        else {icon ="error"}
+        swal({
+            title: "Thanks You!",
+            text: data.msg,
+            icon: icon,
+            button: "OK",
+            timer: 2000,
+        });
+        $.ajax({
+
+            url: url + '/Home/ListCart/',
+
+            type: 'POST',
+
+            cache: false,
+
+            success: function (result) {
+
+                $('#content-cartlist').html(result);
+            }
+
+        });
+        $.ajax({
+
+            url: url + '/Home/QuickViewCart/',
+
+            type: 'POST',
+
+            cache: false,
+
+            success: function (result) {
+
+                $('#quickviewcart').html(result);
+            }
+        });
+    }
+</script>

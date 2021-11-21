@@ -1,0 +1,41 @@
+﻿@model PagedList.IPagedList<BamBaiOnlineShop.Models.ShoppingCart>
+@using PagedList.Mvc;
+@using BamBaiOnlineShop.Models
+@{
+    var session = (Userlogin)Session[BamBaiOnlineShop.Models.CommonConstants.USER_SESSION];
+}
+@{
+    ViewBag.Title = "ViewCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- SECTION-NAV -->
+<div id="section-nav-wrap">
+    <section id="section-nav">
+        <p>Home / <a href="#">Giỏ hàng của bạn</a></p>
+    </section>
+</div>
+<!-- /SECTION-NAV -->
+<!-- SHOP -->
+<div id="content-cartlist">
+    @Html.Action("ListCart", "Home")
+</div>
+<!-- /SHOP -->
+@section scripts
+{
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            $(document).on("click", "#contentPagerCartView a[href]", function () {
+                $.ajax({
+                    url: $(this).attr("href"),
+                    type: 'GET',
+                    cache: false,
+                    success: function (result) {
+                        $('#content-cartlist').html(result);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+}

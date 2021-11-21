@@ -1,0 +1,53 @@
+﻿@model List<BamBaiOnlineShop.Models.Blog>
+
+@foreach (var item in Model)
+{
+<li>
+    <a href="@Url.Action("DetailPost",new { id=item.Postid })">
+        <figure class="liquid">
+            <img src="~/Content/images/blog/@item.image" alt="product1">
+        </figure>
+    </a>
+    <a href="@Url.Action("DetailPost",new { id=item.Postid })"><p class="highlighted category">@item.datepost</p></a>
+    <a href="@Url.Action("DetailPost",new { id=item.Postid })"><h6>@item.Title</h6></a>
+    <!-- RATING -->
+    <ul class="rating">
+        <li class="filled">
+            <!-- SVG STAR -->
+            <svg class="svg-star">
+                <use xlink:href="#svg-star"></use>
+            </svg>
+            <!-- /SVG STAR -->
+        </li>
+        <li class="filled">
+            <!-- SVG STAR -->
+            <svg class="svg-star">
+                <use xlink:href="#svg-star"></use>
+            </svg>
+            <!-- /SVG STAR -->
+        </li>
+        <li class="filled">
+            <!-- SVG STAR -->
+            <svg class="svg-star">
+                <use xlink:href="#svg-star"></use>
+            </svg>
+            <!-- /SVG STAR -->
+        </li>
+        <li class="filled">
+            <!-- SVG STAR -->
+            <svg class="svg-star">
+                <use xlink:href="#svg-star"></use>
+            </svg>
+            <!-- /SVG STAR -->
+        </li>
+        <li class="filled">
+            <!-- SVG STAR -->
+            <svg class="svg-star">
+                <use xlink:href="#svg-star"></use>
+            </svg>
+            <!-- /SVG STAR -->
+        </li>
+    </ul>
+    <!-- /RATING -->
+</li>
+}

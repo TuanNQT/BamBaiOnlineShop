@@ -1,0 +1,285 @@
+﻿@{
+    ViewBag.Title = "Product";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    .btn-space {
+        margin-left: -5%;
+        background-color: cornflowerblue;
+        font-size: large;
+    }
+
+    .scrollmenu {
+        overflow: auto;
+        white-space: nowrap;
+    }
+
+        .scrollmenu a:hover {
+            background-color: #777;
+        }
+
+    #appadd {
+        white-space: nowrap;
+        overflow: hidden;
+        width: 10px;
+        height: 10px;
+        text-overflow: ellipsis;
+    }
+
+    table.gridtable {
+        font-family: tahoma;
+        line-height: 15px;
+        font-size: 12px;
+        color: #333333;
+        border-width: 1px;
+        border-color: #666666;
+        border-collapse: collapse;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    td {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-right: 5px;
+        padding-left: 5px;
+        text-align: center;
+    }
+    img{
+        margin:auto;
+    }
+    table.gridtable th {
+        border-width: 1px;
+        border-style: solid;
+        border-color: #666666;
+        height: 60px;
+        color: #FFFFFF;
+        background-color: #5A94CE; /*#66CCFF*/
+    }
+
+    table.gridtable td {
+        border-width: 1px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: transparent;
+    }
+
+    #Select-b tbody tr:hover td {
+        background: none repeat scroll 0 0 #C0C0C0 /*#5A94CE*/; /*#9CF*/
+        color: #FFF;
+    }
+</style>
+
+<div class="grid-system" ng-app="myApp">
+    <div class="horz-grid" ng-controller="myCtrl" ng-init="GetAllData()">
+        <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#myModal" ng-click="GetCategory();clear()">
+            <img src="~/Areas/Content/images/new.png" class="img-responsive" alt="Alternate Text" />
+        </button>
+        <div class="form-group has-success">
+            <input type="text" ng-model="query[queryBy]" disabled class="form-control1" placeholder="Choose search by" id="SearchKey">
+        </div>
+        <label>Tìm kiếm theo: </label>
+        <select id="dropdonwSearch" ng-model="queryBy" class="form-select form-select-sm" aria-label=".form-select-sm example">
+            <option value="ModelName">Tên sản phẩm</option>
+            <option value="CategoryName">Danh Mục</option>
+            <option value="ModelNumber">Mã sản phẩm</option>
+        </select>
+        <table width="100%" style="table-layout:fixed;" class="gridtable" id="Select-b">
+            <tr>
+                <th width="10%">Loại</th>
+                <th width="20%">Tên sản phẩm</th>
+                <th width="7%">Mã</th>
+                <th width="10%">Hình Ảnh</th>
+                <th width="10%">Giá</th>
+                <th width="15%">Mô tả</th>
+                <th width="10%">Trạng thái</th>
+                <th width="7%">Chức năng</th>
+            </tr>
+            <tr dir-paginate="Pro in products | itemsPerPage:5 | filter:query">
+                <td>{{Pro.CategoryName}}</td>
+                <td> {{Pro.ModelName}}</td>
+                <td> {{Pro.ModelNumber}}</td>
+                <td><img class="img-responsive" src="~/Content/images/items/{{Pro.ProductImage}}" height="150" width="150" alt="Alternate Text" /></td>
+                <td>{{Pro.UnitCost}}</td>
+                <td>{{Pro.Description}}</td>
+                <td>{{Pro.Status ? 'Còn hàng' : 'Hết hàng'}}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning warning_33" data-toggle="modal" data-target="#myModal" ng-click="UpdateEmp(Pro);GetCategory()"><img src="~/Areas/Content/images/edit.png" class="img-responsive" alt="Alternate Text" /></button>
+                    <button style="margin-top:0.3em" class="btn btn-sm btn-warning warning_33" data-toggle="modal" data-target="#myModalAddCart" ng-click="UpdateEmpCart(Pro);GetCustomers()"><img src="~/Areas/Content/images/add-to-cart.png" class="img-responsive" alt="Alternate Text" /></button>
+                    <button style="margin-top:0.3em" class="btn btn-sm btn-warning warning_33" data-toggle="modal" data-target="#myModalAddReview" ng-click="UpdateEmpCart(Pro);GetCustomers()"><img src="~/Areas/Content/images/review.png" class="img-responsive" alt="Alternate Text" /></button>
+                    <button style="margin-top:0.3em" class="btn btn-sm btn-danger" ng-click="DeleteEmp(Pro)"><img src="~/Areas/Content/images/delete.png" class="img-responsive" alt="Alternate Text" /></button>
+                </td>
+            </tr>
+        </table>
+        <dir-pagination-controls></dir-pagination-controls>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <form name="myForm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h2 class="modal-title"><span id="spn">Thêm mới sản phẩm</span></h2>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Danh mục</label>
+                                <select name="repeatSelect" class="form-control1" id="repeatSelect" ng-init="GetCategory()" ng-model="CategoryID" required>
+                                    <option value="" disabled>Chọn thể loại</option>
+                                    <option ng-repeat="(k,v) in data" value="{{v.CategoryID}}">{{ v.CategoryName }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Mã</label>
+
+                                <input type="text" class="form-control1" placeholder="Mã sản phẩm" ng-model="ModelNumber" required>
+
+                            </div>
+                            <div class="form-group" id="categoryName">
+                                <label class="col-sm-5 control-label">Loại</label>
+
+                                <input type="text" class="form-control1" readonly placeholder="Loại sản phẩm" ng-model="CategoryName">
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Tên</label>
+
+                                <input type="text" class="form-control1" id="inputLabel3" placeholder="Tên sản phẩm" ng-model="ModelName" required>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Ảnh</label>
+
+                                <img src="~/Content/images/items/{{ProductImage}}" alt="Alternate Text" style="max-height:150px;max-width:150px" class="glyphicon-zoom-in" />
+                                <input type="file" ngf-select="UploadFiles($files)" title="Chưa tệp nào được chọn" />
+                                <input type="text" style="display:none" class="form-control" id="Imagepath" placeholder="Ảnh" ng-model="ProductImage">
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Giá</label>
+
+                                <input type="text" class="form-control1" placeholder="Giá" ng-model="UnitCost" required>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Mô tả</label>
+
+                                <input type="text" class="form-control1" placeholder="Mô tả" ng-model="Description">
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Trạng thái</label>
+                                <span class="col-sm-5 control-label" id="statusget"></span>
+                                <select class="form-control1" ng-model="Status" required>
+                                    <option value="" disabled>Chọn tình trạng sản phẩm</option>
+                                    <option value="true">Còn hàng</option>
+                                    <option value="false">Hết hàng</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" id="btnSave" value="Submit" ng-click="InsertData()">
+                        </div>
+                    </div><!-- /.modal-content -->
+                </form>
+            </div><!-- /.modal-dialog -->
+        </div>
+        <div class="modal fade" id="myModalAddCart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <form name="formaddCart">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h2 class="modal-title"><span id="spn">Thêm vào giỏ hàng</span></h2>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Khách hàng</label>
+                                <select name="repeatSelectCart" class="form-control1" id="repeatSelectCart" ng-init="GetCustomers()" ng-model="CustomerID" required>
+                                    <option value="" disabled>Chọn Khách Hàng</option>
+                                    <option ng-repeat="(k,v) in data" value="{{v.CustomerID}}">{{ v.FullName }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Số lượng</label>
+
+                                <input type="number" class="form-control1" min="1" placeholder="Số lượng" ng-model="Quantity" required>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" id="btnSaveAddCart" value="Add" ng-click="addCart()">
+                        </div>
+                    </div><!-- /.modal-content -->
+                </form>
+            </div><!-- /.modal-dialog -->
+        </div>
+        <div class="modal fade" id="myModalAddReview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <form name="formaddReview">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h2 class="modal-title"><span id="spn">Thêm đánh giá về sản phẩm</span></h2>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Khách hàng</label>
+                                <select name="repeatSelectCart" class="form-control1" id="repeatSelectCart" ng-init="GetCustomers()" ng-model="Email" required>
+                                    <option value="" disabled>Chọn Khách Hàng</option>
+                                    <option ng-repeat="(k,v) in data" value="{{v.EmailAddress}}">{{ v.FullName }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Bình luận </span>
+                                    </div>
+                                    <textarea style="height:120px" ng-model="Comment" class="form-control" aria-label="With textarea"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Đánh giá</label>
+                                <select name="repeatSelectCart" class="form-control1" ng-model="Rating" required>
+                                    <option value="" disabled>Chọn Rating</option>
+                                    <option value="1">1 sao</option>
+                                    <option value="2">2 sao</option>
+                                    <option value="3">3 sao</option>
+                                    <option value="4">4 sao</option>
+                                    <option value="5">5 sao</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" id="btnSaveAddReview" value="Add" ng-click="addReview()">
+                        </div>
+                    </div><!-- /.modal-content -->
+                </form>
+            </div><!-- /.modal-dialog -->
+        </div>
+    </div>
+    @Html.Hidden("PrId")
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#dropdonwSearch').change(function () {
+                if ($("#dropdonwSearch").val() != "") {
+                    document.getElementById('SearchKey').disabled = false;
+                    $('#SearchKey').attr('placeholder', "Nhập từ khóa");
+                }
+            });
+        });
+    </script>
+    <script src="~/AngularController/AngularCodeProduct.js"></script>
+    <script src="~/Areas/Content/js/dirPagination.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.2.13/ng-file-upload.min.js"></script>
+}

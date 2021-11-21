@@ -1,0 +1,124 @@
+﻿@model List<BamBaiOnlineShop.Models.OrderDetail>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    table {
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    caption {
+        font-size: 2em;
+        margin: .25em 0 .75em;
+    }
+
+    table tr {
+        background: #f8f8f8;
+        border: 1px solid #ccc;
+        padding: .35em;
+    }
+
+    table th,
+    table td {
+        padding: .625em;
+        text-align: center;
+    }
+
+    table th {
+        font-size: .85em;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+    }
+
+    /* Media Queries*/
+
+    @@media screen and (max-width: 600px) {
+        table {
+            border: 0;
+        }
+
+            table caption {
+                font-size: 1.3em;
+            }
+
+            table thead {
+                display: none;
+            }
+
+            table tr {
+                border-bottom: 3px solid #ddd;
+                display: block;
+                margin-bottom: .625em;
+            }
+
+            table td {
+                border-bottom: 1px solid #ddd;
+                display: block;
+                font-size: .8em;
+                text-align: center;
+            }
+
+                table td:before {
+                    content: attr(data-label);
+                    float: left;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                }
+
+                table td:last-child {
+                    border-bottom: 0;
+                }
+    }
+
+    /* Media Queries*/
+</style>
+@if (Model != null)
+{
+    <table>
+        <caption>Chi tiết đơn hàng</caption>
+        <thead>
+            <tr>
+                <th>Tên sản phẩm</th>
+                <th>Ảnh</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+            </tr>
+
+
+        </thead>
+
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><a href="@Url.Action("DetailProduct","Home",new { id=item.ProductID })">@item.Product.ModelName</a></td>
+                    <td>
+                    <img src="~/Content/images/items/@item.Product.ProductImage" height="70px" class="img-circle" alt="product1">
+                    </td>
+                    <td>@item.Quantity</td>
+                    <td>@((float)item.UnitCost)</td>
+                    <td>@((float)item.thanhtien)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <h2 style="text-align:center;color:darkslategrey;margin:8px 14px 4px 8px">
+        Tổng tiền :@((float)Model.Sum(x => x.thanhtien))
+    </h2>
+
+}
+else
+{
+    <h2 style="text-align:center;color:darkslategrey;margin:8px 14px 4px 8px">
+        @ViewBag.message
+    </h2>
+}
+
+

@@ -1,0 +1,243 @@
+﻿@{
+    ViewBag.Title = "Blog";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+
+    .btn-space {
+        margin-left: -5%;
+        background-color: cornflowerblue;
+        font-size: large;
+    }
+    .scrollmenu {
+        overflow: auto;
+        white-space: nowrap;
+    }
+    .scrollmenu a:hover {
+        background-color: #777;
+    }
+    #appadd {
+        white-space: nowrap;
+        overflow: hidden;
+        width: 10px;
+        height: 10px;
+        text-overflow: ellipsis;
+    }
+
+    table.gridtable {
+        font-family: tahoma;
+        line-height: 15px;
+        font-size: 12px;
+        color: #333333;
+        border-width: 1px;
+        border-color: #666666;
+        border-collapse: collapse;
+    }
+    th{
+        text-align:center;
+    }
+    td{
+        text-align:center;
+
+    }
+        table.gridtable th {
+            border-width: 1px;
+            border-style: solid;
+            border-color: #666666;
+            height:60px;
+            color: #FFFFFF;
+            background-color: #5A94CE; /*#66CCFF*/
+        }
+
+    table.gridtable td {
+        border-width: 1px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: transparent;
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    #Select-b tbody tr:hover td {
+        background: none repeat scroll 0 0 #C0C0C0 /*#5A94CE*/; /*#9CF*/
+        color: #FFF;
+    }
+
+</style>
+
+<div class="grid-system" ng-app="BlogApp">
+    <div class="horz-grid" ng-controller="BlogCtrl" ng-init="GetAllData()">
+        <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#myModal" ng-click="GetCategory();clear()">
+            <img src="~/Areas/Content/images/new.png" class="img-responsive" alt="Alternate Text" />
+        </button>
+        <div class="form-group has-success">
+            <input type="text" ng-model="query[queryBy]" disabled class="form-control1" placeholder="Choose search by" id="SearchKey">
+        </div>
+        <label>Tìm kiếm theo: </label>
+        <select id="dropdonwSearch" ng-model="queryBy" class="form-select form-select-sm" aria-label=".form-select-sm example">
+            <option value="Title">Tiêu đề</option>
+            <option value="TypeName">Thể loại</option>
+        </select>
+ 
+            <table width="100%" style="table-layout:fixed;" class="gridtable" id="Select-b" >
+                <tr>
+                    <th width="10%">Tiêu đề</th>
+                    <th width="10%">Ngày đăng</th>
+                    <th width="30%">Nội dung</th>
+                    <th width="5%">Lượt xem</th>
+                    <th width="10%">Lượt comment</th>
+                    <th width="10%">Thể loại</th>
+                    <th width="10%">Ảnh</th>
+                    <th width="10%">Người đăng</th>
+                    <th width="10%">Chức năng</th>
+                </tr>
+                <tr dir-paginate="Po in blogs | itemsPerPage:5 | filter:query">
+                    <td>{{Po.Title}}</td>
+                    <td>{{Po.datepost}}</td>
+                    <td id="append">{{Po.content}}</td>
+                    <td>{{Po.view}}</td>
+                    <td>{{Po.comment}}</td>
+                    <td>{{Po.TypeName}}</td>
+                    <td><img src="~/Content/images/blog/{{Po.image}}"  class="img-responsive" alt="Alternate Text" /></td>
+                    <td>{{Po.writer}}</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning warning_33" data-toggle="modal" data-target="#myModal" ng-click="GetCategory();Update(Po)"><img src="~/Areas/Content/images/edit.png" class="img-responsive" alt="Alternate Text" /></button><br />
+                        <button style="margin-top:0.3em" class="btn btn-sm btn-warning warning_33" data-toggle="modal" data-target="#myModalAddComment" ng-click="UpdateBFcomment(Po);GetCustomers()"><img src="~/Areas/Content/images/comment.png" class="img-responsive" alt="Alternate Text" /></button><br />
+                        <button style="margin-top:0.3em" class="btn btn-sm btn-danger" ng-click="Delete(Po)"><img src="~/Areas/Content/images/delete.png" class="img-responsive" alt="Alternate Text" /></button>
+                    </td>
+                </tr>
+            </table>
+        <dir-pagination-controls></dir-pagination-controls>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <form name="myForm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h2 class="modal-title"><span id="spn">Thêm mới bài viết</span></h2>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Thể loại</label>
+                                <select name="repeatSelect" class="form-control1" id="repeatSelect" ng-init="GetCategory()" ng-model="Typeid" required>
+                                    <option value="" disabled>Chọn thể loại</option>
+                                    <option ng-repeat="(k,v) in data" value="{{v.Typeid}}">{{ v.TypeName }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="categoryName">
+                                <label class="col-sm-5 control-label">Thể Loại</label>
+
+                                <input type="text" class="form-control1" readonly placeholder="Loại sản phẩm" ng-model="TypeName">
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Tiêu đề</label>
+
+                                <input type="text" class="form-control1" placeholder="Tiêu đề" ng-model="Title" required>
+
+                            </div>
+                            <div class="form-group" id="categoryName">
+                                <label class="col-sm-5 control-label">Ngày đăng<span id="showdp" style="display:none">-{{datepost}}</span></label>
+
+                                <input type="date" class="form-control1" id="ngaydang" placeholder="Ngày đăng" ng-model="datepost">
+
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Nội dung</span>
+                                    </div>
+                                    <textarea style="height:120px" ng-model="content" class="form-control" aria-label="With textarea"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group" >
+                                <label class="col-sm-5 control-label">Lượt xem</label>
+
+                                <input type="number" class="form-control1"  placeholder="Lượt xem" ng-model="view">
+
+                            </div>
+                            <div class="form-group" >
+                                <label class="col-sm-5 control-label">Lượt bình luận</label>
+
+                                <input type="number" min="1" class="form-control1"  placeholder="Lượt comment" ng-model="comment">
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Ảnh</label>
+
+                                <img src="~/Content/images/blog/{{image}}" alt="Alternate Text" style="max-height:150px;max-width:150px" class="glyphicon-zoom-in" />
+                                <input type="file" ngf-select="UploadFiles($files)" title="Chưa tệp nào được chọn" />
+                                <input type="text" style="display:none" class="form-control" id="Imagepath" placeholder="Ảnh" ng-model="image">
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Người đăng</label>
+
+                                <input type="text" class="form-control1" placeholder="Người đăng" ng-model="writer" required>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" id="btnSave" value="Submit" ng-click="InsertData()">
+                        </div>
+                    </div><!-- /.modal-content -->
+                </form>
+            </div><!-- /.modal-dialog -->
+        </div>
+        <div class="modal fade" id="myModalAddComment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <form name="formaddCart">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h2 class="modal-title"><span id="spn">Thêm một bình luận</span></h2>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Khách hàng</label>
+                                <select name="repeatSelectCart" class="form-control1" id="repeatSelectCart" ng-init="GetCustomers()" ng-model="CustomerID" required>
+                                    <option value="" disabled>Chọn Khách Hàng</option>
+                                    <option ng-repeat="(k,v) in data" value="{{v.CustomerID}}">{{ v.FullName }}</option>
+
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Nội dung </span>
+                                    </div>
+                                    <textarea style="height:120px" ng-model="ContentComment" class="form-control" aria-label="With textarea"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" >Close</button>
+                            <input type="submit" class="btn btn-primary" id="btnSaveAddCart" value="Add" ng-click="addComment()">
+                        </div>
+                    </div><!-- /.modal-content -->
+                </form>
+            </div><!-- /.modal-dialog -->
+        </div>
+    </div>
+    @Html.Hidden("PoId")
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#dropdonwSearch').change(function () {
+                if ($("#dropdonwSearch").val() != "") {
+                    document.getElementById('SearchKey').disabled = false;
+                    $('#SearchKey').attr('placeholder', "Nhập từ khóa");
+                }
+            });
+        });
+    </script>
+    <script src="~/AngularController/AngularCodeBlog.js"></script>
+    <script src="~/Areas/Content/js/dirPagination.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.2.13/ng-file-upload.min.js"></script>
+}

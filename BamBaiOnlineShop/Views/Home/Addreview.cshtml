@@ -1,0 +1,83 @@
+﻿@using BamBaiOnlineShop.Models
+@{
+    var session = (Userlogin)Session[BamBaiOnlineShop.Models.CommonConstants.USER_SESSION];
+}
+<!-- REVIEW FORM -->
+<div class="sub-item review-form">
+    <h5>Viết một đánh giá</h5>
+    <div class="featured-form">
+        <form class="westeros-form" action="@Url.Action("Addreview","Home")" method="post">
+            <div class="left">
+                <label class="rl-label required">Email</label>
+                <input type="text" name="email" required placeholder="Nhập email hoặc tên của bạn...">
+            </div>
+            <div>
+                <label class="rl-label required">Nội dung</label>
+                <textarea name="comment" required placeholder="Nội dung đánh giá..."></textarea>
+            </div>
+            <div class="left">
+                <label class="rl-label required">Đánh giá</label>
+                <input type="number" name="rating" hidden value="1" id="getratingvalue" />
+                <!-- RATING -->
+                <ul class="rating large rater" id="getrating">
+                    <li value="1">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                    <li value="2">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                    <li value="3">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                    <li value="4">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                    <li value="5">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                </ul>
+                <!-- /RATING -->
+            </div>
+            @if (session != null)
+            {
+                <button class="button" type="submit">Đánh giá ngay</button>
+            }
+            else
+            {
+                <button class="button"><a href="@Url.Action("Index","LoginUser")">Đăng nhập để đánh giá</a></button>
+            }
+
+        </form>
+    </div>
+</div>
+<!-- /REVIEW FORM -->
+<script>
+    var ul = document.getElementById('getrating');
+
+    ul.addEventListener('click', function (e) {
+        if (e.target.tagName === 'LI') {
+            document.getElementById('rating').value = (e.target.value);
+        }
+    });
+</script>
+    

@@ -1,0 +1,46 @@
+﻿@model List<BamBaiOnlineShop.Models.TypeBlog>
+
+
+<h3 class="title">Danh mục bài viết</h3>
+<!-- ACCORDION -->
+<ul class="accordion">
+    <!--ACCORDION ITEM-->
+    <li onclick="searchByCateg()">
+        <a href="#">
+            <h6>Tất cả</h6>
+        </a>
+    </li>
+    <!--/ACCORDION ITEM-->
+    @foreach (var item in Model)
+    {
+        <!--ACCORDION ITEM-->
+        <li onclick="searchByCateg(@item.Typeid)">
+            <a href="#">
+                <h6>@item.TypeName (@item.Blogs.Count(x => x.Typeid == item.Typeid))</h6>
+            </a>
+        </li>
+        <!--/ACCORDION ITEM-->
+    }
+
+</ul>
+<!-- /ACCORDION -->
+<script>
+    var url = "https://bambai.online";
+/*    var url = "https://localhost:44393";*/
+    function searchByCateg(cid) {
+
+        $.ajax({
+
+            url: url+'/Home/ListBlogShop?cid=' + cid,
+
+            type: 'POST',
+
+            success: function (result) {
+
+                $('#contentBlog').html(result);
+            }
+
+        });
+    };
+
+</script>

@@ -1,0 +1,249 @@
+﻿@model PagedList.IPagedList<BamBaiOnlineShop.Models.Product>
+@using PagedList.Mvc;
+@using BamBaiOnlineShop.Models
+@{
+    var session = (Userlogin)Session[BamBaiOnlineShop.Models.CommonConstants.USER_SESSION];
+}
+<style>
+    .text-overflow {
+        display: block;
+        max-width: 80%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    
+</style>
+<div id="contentProduct">
+    <!-- PRODUCT LIST -->
+    <ul class="product-list grid">
+        @foreach (var item in Model)
+        {
+            <!-- PRODUCT -->
+            <li class="list-item">
+                <!-- ACTIONS -->
+                <div class="actions">
+                    <figure class="liquid">
+                        <img src="~/Content/images/items/@item.ProductImage" alt="product1">
+                    </figure>
+                    <div>
+                        <a href="#qv-p7" class="button quick-view" onclick="quickview(@item.ProductID)" data-effect="mfp-3d-unfold">
+                            <!-- SVG QUICKVIEW -->
+                            <svg class="svg-quickview">
+                                <use xlink:href="#svg-quickview"></use>
+                            </svg>
+                            <!-- /SVG QUICKVIEW -->
+                        </a>
+                        <!-- QUICK VIEW POPUP -->
+                        <div id="qv-p7" class="product-quick-view mfp-with-anim mfp-hide">
+                        </div>
+                        <!-- /QUICK VIEW POPUP -->
+                        <a href="@Url.Action("DetailProduct",new { id=item.ProductID })" class="button full-view">
+                            <!-- SVG FULLVIEW -->
+                            <svg class="svg-fullview">
+                                <use xlink:href="#svg-fullview"></use>
+                            </svg>
+                            <!-- /SVG FULLVIEW -->
+                        </a>
+                    </div>
+                </div>
+                <!-- /ACTIONS -->
+                <!-- DESCRIPTION -->
+                <div class="description">
+                    <div class="clearfix">
+                        <a href="@Url.Action("DetailProduct",new { id=item.ProductID })"><p class="highlighted category">@item.Category.CategoryName</p></a>
+                        <!-- RATING -->
+                        <ul class="rating">
+                            <li class="filled">
+                                <!-- SVG STAR -->
+                                <svg class="svg-star">
+                                    <use xlink:href="#svg-star"></use>
+                                </svg>
+                                <!-- /SVG STAR -->
+                            </li>
+                            <li class="filled">
+                                <!-- SVG STAR -->
+                                <svg class="svg-star">
+                                    <use xlink:href="#svg-star"></use>
+                                </svg>
+                                <!-- /SVG STAR -->
+                            </li>
+                            <li class="filled">
+                                <!-- SVG STAR -->
+                                <svg class="svg-star">
+                                    <use xlink:href="#svg-star"></use>
+                                </svg>
+                                <!-- /SVG STAR -->
+                            </li>
+                            <li class="filled">
+                                <!-- SVG STAR -->
+                                <svg class="svg-star">
+                                    <use xlink:href="#svg-star"></use>
+                                </svg>
+                                <!-- /SVG STAR -->
+                            </li>
+                            <li class="filled">
+                                <!-- SVG STAR -->
+                                <svg class="svg-star">
+                                    <use xlink:href="#svg-star"></use>
+                                </svg>
+                                <!-- /SVG STAR -->
+                            </li>
+                        </ul>
+                        <!-- /RATING -->
+                    </div>
+                    <div class="clearfix">
+                        <a href="@Url.Action("DetailProduct",new { id=item.ProductID })"><h6 class="text-overflow">@item.ModelName</h6></a>
+                    </div>
+                    <div class="clearfix">
+                        <p class="short-description">@item.ModelNumber</p>
+                        <p class="long-description">@item.Description</p>
+                        <p class="highlighted current">@((float)item.UnitCost)</p>
+                    </div>
+
+                    <!-- SOCIAL LINKS -->
+                    <div class="social">
+                        <a href="#" class="button medium fb"></a>
+                        <a href="#" class="button medium twt"></a>
+                    </div>
+                    <!-- SOCIAL LINKS -->
+                    <!-- CART OPTIONS -->
+                    <div class="cart-options">
+                        @if (session != null)
+                        {
+                            using (Ajax.BeginForm("addWishList", "Home", new { id = item.ProductID }, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "alertsuccess", OnFailure = "alearterror",OnBegin="onLoading" }, null))
+                            {
+
+                                <button type="submit" style="float:left;margin-right:5px" >
+                                    <a class="button medium wishlist">
+                                        <!-- SVG WISHLIST -->
+                                        <svg class="svg-wishlist">
+                                            <use xlink:href="#svg-wishlist"></use>
+                                        </svg>
+                                        <!-- /SVG WISHLIST -->
+                                        <span>Thêm yêu thích</span>
+                                    </a>
+                                </button>
+
+                            }
+                            if (item.Status == true)
+                            {
+                                using (Ajax.BeginForm("addCart", "Home", new { soluong = 1, id = item.ProductID }, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "alertsuccess", OnFailure = "alearterror",OnBegin="onLoading" }, null))
+                                {
+
+                                    <button type="submit">
+                                        <a class="button cart-add">
+                                            <!-- SVG PLUS -->
+                                            <svg class="svg-plus">
+                                                <use xlink:href="#svg-plus"></use>
+                                            </svg>
+                                            <!-- /SVG PLUS -->
+                                            Thêm vào giỏ
+                                        </a>
+                                    </button>
+
+                                }
+
+                            }
+                            else
+                            {
+                                <a href="#" class="button no-stock">
+                                    <!-- SVG PLUS -->
+                                    <svg class="svg-plus">
+                                        <use xlink:href="#svg-plus"></use>
+                                    </svg>
+                                    <!-- /SVG PLUS -->
+                                    Hết hàng
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Index","LoginUser")" class="button medium wishlist">
+                                <!-- SVG WISHLIST -->
+                                <svg class="svg-wishlist">
+                                    <use xlink:href="#svg-wishlist"></use>
+                                </svg>
+                                <!-- /SVG WISHLIST -->
+                                <span>Thêm yêu thích</span>
+                            </a>
+                            <a href="@Url.Action("Index","LoginUser")" class="button cart-add">
+                                Đăng nhập
+                            </a>
+                        }
+
+                    </div>
+
+                    <!-- /CART OPTIONS -->
+                </div>
+                <!-- /DESCRIPTION -->
+            </li>
+            <!-- /PRODUCT -->
+        }
+
+    </ul>
+    <!-- /PRODUCT LIST -->
+    <!-- PAGER -->
+    <div id="contentPager">
+        @Html.PagedListPager(Model, page => Url.Action("ListProductShop", new { page, currentFilter = ViewBag.CurrentFilter,cid = ViewBag.cate }))
+    </div>
+    <!-- /PAGER -->
+</div>
+<script>
+    var url = "https://bambai.online";
+/*    var url = "https://localhost:44393";*/
+    function quickview(productid) {
+
+        $.ajax({
+
+            url: url+'/Home/quickview/' + productid,
+
+            type: 'POST',
+
+            cache: false,
+
+            success: function (result) {
+
+                $('#qv-p7').html(result);
+            }
+
+        });
+
+    };
+    function alerterror(data) {
+        console.log(data);
+        swal({
+            title: "Lỗi gì đó!",
+            text : data.msg,
+            icon: "error",
+            button: "OK",
+            timer: 2000,
+        });
+    };
+    function alertsuccess(data) {
+        console.log(data)
+        swal({
+            title: "Thanks You!",
+            text: data.msg,
+            icon: "success",
+            button: "OK",
+            timer: 2000,
+        });
+        $.ajax({
+
+            url: url+'/Home/QuickViewCart/',
+
+            type: 'POST',
+
+            cache: false,
+
+            success: function (result) {
+
+                $('#quickviewcart').html(result);
+            }
+
+        });
+        @* $('#quickviewcart').load('/Home/QuickViewCart');*@
+    }
+
+</script>

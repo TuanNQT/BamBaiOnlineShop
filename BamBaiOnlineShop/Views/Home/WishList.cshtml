@@ -1,0 +1,91 @@
+﻿@using BamBaiOnlineShop.Models
+@{
+    var session = (Userlogin)Session[BamBaiOnlineShop.Models.CommonConstants.USER_SESSION];
+}
+<!-- SECTION-NAV -->
+<div id="section-nav-wrap">
+    <section id="section-nav">
+        <p>Home / <a href="#">Danh sách yêu thích</a></p>
+    </section>
+</div>
+<!-- /SECTION-NAV -->
+<!-- SHOP -->
+<div id="shop-wrap">
+    <section id="shop" class="right expandible-sidebar">
+        <!-- SIDEBAR CONTROL -->
+        <div class="sidebar-control">
+            <!-- SVG GEAR -->
+            <svg class="svg-gear">
+                <use xlink:href="#svg-gear"></use>
+            </svg>
+            <!-- /SVG GEAR -->
+        </div>
+        <!-- /SIDEBAR CONTROL -->
+        <!-- SHOP SIDEBAR -->
+        <aside class="shop-sidebar">
+            <!-- SIDEBAR CONTROL -->
+            <svg class="svg-plus sidebar-control">
+                <use xlink:href="#svg-plus"></use>
+            </svg>
+            <!-- /SIDEBAR CONTROL -->
+
+            @Html.Action("ListCategories")
+            @Html.Action("Top5sphotBanner")
+            <figure>
+                <img src="~/Content/images/banners/banner5.jpg" alt="advertising">
+            </figure>
+        </aside>
+        <!-- /SHOP SIDEBAR -->
+        <!-- SHOP PRODUCTS -->
+        <div class="shop-products">
+            <h3 class="title">Danh sách yêu thích</h3>
+            <figure class="section-banner">
+                <img src="~/Content/images/banners/wishlist-banner.png" alt="men-banner">
+            </figure>
+            @if (session != null)
+            {
+                @Html.Action("ShowWishList", "Home")
+            }
+            else
+            {
+        <h3 style="padding-top:20px">Bạn chưa đăng nhập! <a href="@Url.Action("Index","LoginUser")">Đăng nhập ngay</a></h3>
+            }
+        </div>
+            <!-- /SHOP PRODUCTS -->
+    </section>
+</div>
+<!-- /SHOP -->
+@section scripts
+{
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function () {
+            $(document).on("click", "#contentPagerWishList a[href]", function () {
+                $.ajax({
+                    url: $(this).attr("href"),
+                    type: 'GET',
+                    cache: false,
+                    success: function (result) {
+                        $('#content-wishlist').html(result);
+                    }
+                });
+                return false;
+            });
+        });
+@*        $('#show').on("change", function () {
+            var e = document.getElementById("show");
+            var size = e.value;
+            $.ajax({
+
+                url: '/Home/ListProductShop?sizepage=' + size,
+
+                type: 'POST',
+                success: function (result) {
+
+                    $('#contentProduct').html(result);
+                }
+
+            });
+        });
+*@
+    </script>
+}

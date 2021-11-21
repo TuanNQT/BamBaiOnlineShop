@@ -1,0 +1,205 @@
+﻿@model List<BamBaiOnlineShop.Models.Review>
+<!-- RATE -->
+<div class="sub-item rate">
+    <!-- RATING -->
+    <!-- /RATING -->
+    @if (@ViewData["rating"] != null)
+    {
+        <ul class="rating large">
+            <li class="filled">
+                <!-- SVG STAR -->
+                <svg class="svg-star">
+                    <use xlink:href="#svg-star"></use>
+                </svg>
+                <!-- /SVG STAR -->
+            </li>
+            <li class="filled">
+                <!-- SVG STAR -->
+                <svg class="svg-star">
+                    <use xlink:href="#svg-star"></use>
+                </svg>
+                <!-- /SVG STAR -->
+            </li>
+            <li class="filled">
+                <!-- SVG STAR -->
+                <svg class="svg-star">
+                    <use xlink:href="#svg-star"></use>
+                </svg>
+                <!-- /SVG STAR -->
+            </li>
+            <li class="filled">
+                <!-- SVG STAR -->
+                <svg class="svg-star">
+                    <use xlink:href="#svg-star"></use>
+                </svg>
+                <!-- /SVG STAR -->
+            </li>
+            <li class="filled">
+                <!-- SVG STAR -->
+                <svg class="svg-star">
+                    <use xlink:href="#svg-star"></use>
+                </svg>
+                <!-- /SVG STAR -->
+            </li>
+        </ul>
+        <h5><span> @ViewData["rating"]/5</span> Dựa trên @Model.Count đánh giá</h5>
+    }
+    else
+    {
+        <h5>Chưa có đánh giá</h5>
+    }
+
+</div>
+    <!-- /RATE -->
+    @foreach (var item in Model)
+    {
+        <!-- REVIEW -->
+        <div class="sub-item review">
+            <h5>@item.CustomerName</h5>
+            @if (item.Rating == 1)
+            {
+                <!-- RATING -->
+                <ul class="rating big">
+                    <li class="filled">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                </ul>
+                <!-- /RATING -->
+            }
+            else if (item.Rating == 2)
+            {
+                <!-- RATING -->
+                <ul class="rating big">
+                    <li class="filled">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                    <li class="filled">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                </ul>
+                <!-- /RATING -->
+            }
+            else if (item.Rating == 3)
+            {
+                <!-- RATING -->
+                <ul class="rating big">
+                    <li class="filled">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                    <li class="filled">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                    <li class="filled">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                </ul>
+                <!-- /RATING -->
+            }
+            else if (item.Rating == 4)
+            {
+                <!-- RATING -->
+                <ul class="rating big">
+                    <li class="filled">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                    <li class="filled">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                    <li class="filled">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                    <li class="filled">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                </ul>
+                <!-- /RATING -->
+            }
+            else if (item.Rating == 5)
+            {
+                <!-- RATING -->
+                <ul class="rating big">
+                    <li class="filled">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                    <li class="filled">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                    <li class="filled">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                    <li class="filled">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                    <li class="filled">
+                        <!-- SVG STAR -->
+                        <svg class="svg-star">
+                            <use xlink:href="#svg-star"></use>
+                        </svg>
+                        <!-- /SVG STAR -->
+                    </li>
+                </ul>
+                <!-- /RATING -->
+            }
+
+            <p class="author">@item.CustomerEmail -@item.datecomment</p>
+            <p class="comment">@item.Comments</p>
+        </div>
+        <!-- /REVIEW -->
+    }
+

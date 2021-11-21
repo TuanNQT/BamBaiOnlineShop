@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "Category";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    .btn-space {
+        margin-left: -5%;
+        background-color: cornflowerblue;
+        font-size: large;
+    }
+
+    .scrollmenu {
+        overflow: auto;
+        white-space: nowrap;
+    }
+
+        .scrollmenu a:hover {
+            background-color: #777;
+        }
+
+    #appadd {
+        white-space: nowrap;
+        overflow: hidden;
+        width: 10px;
+        height: 10px;
+        text-overflow: ellipsis;
+    }
+
+    table.gridtable {
+        font-family: tahoma;
+        line-height: 15px;
+        font-size: 12px;
+        color: #333333;
+        border-width: 1px;
+        border-color: #666666;
+        border-collapse: collapse;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    td {
+        text-align: center;
+    }
+
+    table.gridtable th {
+        border-width: 1px;
+        border-style: solid;
+        border-color: #666666;
+        height: 60px;
+        color: #FFFFFF;
+        background-color: #5A94CE; /*#66CCFF*/
+    }
+
+    table.gridtable td {
+        border-width: 1px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: transparent;
+    }
+
+    #Select-b tbody tr:hover td {
+        background: none repeat scroll 0 0 #C0C0C0 /*#5A94CE*/; /*#9CF*/
+        color: #FFF;
+    }
+</style>
+
+<div class="grid-system" ng-app="CategoryApp">
+    <div class="horz-grid" ng-controller="CategoryCtrl" ng-init="GetAllData()">
+        <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#myModal" ng-click="clear()">
+            <img src="~/Areas/Content/images/new.png" class="img-resCansive" alt="Alternate Text" />
+        </button>
+        <div class="form-group has-success">
+            <input type="text" ng-model="query[queryBy]" disabled class="form-control1" placeholder="Choose search by" id="SearchKey">
+        </div>
+        <label>Tìm kiếm theo: </label>
+        <select id="dropdonwSearch" ng-model="queryBy" class="form-select form-select-sm" aria-label=".form-select-sm example">
+            <option value="CategoryName">Tên danh mục</option>
+            <option value="CountProduct">Số lượng sản phẩm</option>
+        </select>
+
+        <table width="100%" style="table-layout:fixed;" class="gridtable" id="Select-b">
+            <tr>
+                <th width="10%">Tên danh mục</th>
+                <th width="10%">Số lượng sản phẩm đang có</th>
+                <th width="10%">Chức năng</th>
+            </tr>
+            <tr dir-paginate="Ca in Categorys | itemsPerPage:5 | filter:query" >
+                <td>{{Ca.CategoryName}}</td>
+                <td>{{Ca.CountProduct}}</td>
+                <td>
+                    <button style="margin-top:0.3em" class="btn btn-sm btn-warning warning_33" data-toggle="modal" data-target="#myModal" ng-click="Update(Ca)"><img src="~/Areas/Content/images/edit.png" class="img-resCansive" alt="Alternate Text" /></button><br />
+                    <button style="margin-top:0.3em" class="btn btn-sm btn-danger" ng-click="Delete(Ca)"><img src="~/Areas/Content/images/delete.png" class="img-resCansive" alt="Alternate Text" /></button>
+                </td>
+            </tr>
+        </table>
+        <dir-pagination-controls></dir-pagination-controls>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <form name="myForm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h2 class="modal-title"><span id="spn">Thêm mới danh mục sản phẩm</span></h2>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group" id="categoryName">
+                                <label class="col-sm-5 control-label">Tên danh mục</label>
+
+                                <input type="text" class="form-control1" placeholder="Loại sản phẩm" ng-model="CategoryName">
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" id="btnSave" value="Submit" ng-click="InsertData()">
+                        </div>
+                    </div><!-- /.modal-content -->
+                </form>
+            </div><!-- /.modal-dialog -->
+        </div>
+    </div>
+    @Html.Hidden("CaID")
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#dropdonwSearch').change(function () {
+                if ($("#dropdonwSearch").val() != "") {
+                    document.getElementById('SearchKey').disabled = false;
+                    $('#SearchKey').attr('placeholder', "Nhập từ khóa");
+                }
+            });
+        });
+    </script>
+    <script src="~/AngularController/AngularCategoryProduct.js"></script>
+    <script src="~/Areas/Content/js/dirPagination.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.2.13/ng-file-upload.min.js"></script>
+}

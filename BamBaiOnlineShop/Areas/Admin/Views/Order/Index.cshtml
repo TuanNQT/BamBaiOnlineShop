@@ -1,0 +1,141 @@
+﻿@{
+    ViewBag.Title = "Order";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+
+    .btn-space {
+        margin-left: -5%;
+        background-color: cornflowerblue;
+        font-size: large;
+    }
+
+    .scrollmenu {
+        overflow: auto;
+        white-space: nowrap;
+    }
+
+        .scrollmenu a:hover {
+            background-color: #777;
+        }
+
+    #appadd {
+        white-space: nowrap;
+        overflow: hidden;
+        width: 10px;
+        height: 10px;
+        text-overflow: ellipsis;
+    }
+
+    table.gridtable {
+        font-family: tahoma;
+        line-height: 15px;
+        font-size: 12px;
+        color: #333333;
+        border-width: 1px;
+        border-color: #666666;
+        border-collapse: collapse;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    td {
+        text-align: center;
+    }
+
+    table.gridtable th {
+        border-width: 1px;
+        border-style: solid;
+        border-color: #666666;
+        height: 60px;
+        color: #FFFFFF;
+        background-color: #5A94CE; /*#66CCFF*/
+    }
+
+    table.gridtable td {
+        border-width: 1px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: transparent;
+    }
+
+    #Select-b tbody tr:hover td {
+        background: none repeat scroll 0 0 #C0C0C0 /*#5A94CE*/; /*#9CF*/
+        color: #FFF;
+    }
+</style>
+
+<div class="grid-system" ng-app="OrderApp">
+    <div class="horz-grid" ng-controller="OrderCtrl" ng-init="GetAllData()">
+        <div class="form-group has-success">
+            <input type="text" ng-model="query[queryBy]" disabled class="form-control1" placeholder="Choose search by" id="SearchKey">
+        </div>
+        <label>Tìm kiếm theo </label>
+        <select id="dropdonwSearch" ng-model="queryBy" class="form-select form-select-sm" aria-label=".form-select-sm example">
+            <option value="FullName">Tên khách hàng</option>
+            <option value="status">Trạng thái</option>
+        </select>
+
+        <table width="100%" style="table-layout:fixed;" class="gridtable" id="Select-b">
+            <tr>
+                <th width="20%">Tên khách hàng</th>
+                <th width="10%">Ngày đặt</th>
+                <th width="20%">Ngày ship dự kiến</th>
+                <th width="5%">Trạng thái</th>
+                <th width="10%">Chức năng</th>
+            </tr>
+            <tr dir-paginate="Or in orders | itemsPerPage:5 | filter:query">
+                <td>{{Or.FullName}}</td>
+                <td>{{Or.OrderDate}}</td>
+                <td>{{Or.ShipDate}}</td>
+                <td>{{Or.status ? 'Đã xác nhận' : 'Chưa xác nhận'}}</td>
+                <td>
+
+                    <button  class="btn btn-sm btn-warning warning_33"  ng-click="beforeaction(Or);checkOrder()"><img src="~/Areas/Content/images/check.png" class="img-responsive" alt="Alternate Text" /></button><br />
+                    <button class="btn btn-sm btn-warning warning_33" style="margin-top:0.3em"  data-toggle="modal" data-target="#myModal" ng-click="beforeaction(Or);GetOrderDetail()"><img src="~/Areas/Content/images/edit.png" class="img-resOrnsive" alt="Alternate Text" /></button><br />
+                </td>
+            </tr>
+        </table>
+        <dir-pagination-controls></dir-pagination-controls>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <form name="myForm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h2 class="modal-title"><span id="spn">Chi tiết đơn hàng</span></h2>
+                        </div>
+                        <div class="modal-body" ng-repeat="Ord in orderdetails">
+                            <p>Tên sản phẩm: {{Ord.ModelName}}</p>
+                            <p>Số lượng: {{Ord.Quantity}}</p>
+                            <p>Đơn giá: {{Ord.UnitCost}}</p>
+                            <p>Thành Tiền: {{Ord.thanhtien}}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <p style="float:left">Tổng tiền: {{ getTotal()}}</p>
+                            <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </form>
+            </div><!-- /.modal-dialog -->
+        </div>
+    </div>
+    @Html.Hidden("OrId")
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#dropdonwSearch').change(function () {
+                if ($("#dropdonwSearch").val() != "") {
+                    document.getElementById('SearchKey').disabled = false;
+                    $('#SearchKey').attr('placeholder', "Nhập từ khóa");
+                }
+            });
+        });
+    </script>
+    <script src="~/AngularController/AngularCodeOrder.js"></script>
+    <script src="~/Areas/Content/js/dirPagination.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.2.13/ng-file-upload.min.js"></script>
+}

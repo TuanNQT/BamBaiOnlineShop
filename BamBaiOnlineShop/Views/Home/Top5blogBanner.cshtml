@@ -1,0 +1,62 @@
+﻿@model List<BamBaiOnlineShop.Models.Blog>
+
+<style>
+    .title-banner {
+        font-weight:bold;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .content-banner {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+<!-- POPULAR POSTS -->
+<h3 class="title">
+    Bài viết chú ý
+</h3>
+<ul class="posts-widget">
+    @foreach (var item in Model)
+    {
+        <!-- POSTW-ITEM -->
+        <li>
+            <a href="@Url.Action("DetailPost",new { id=item.Postid })">
+                <div class="post-picture">
+                    <figure class="liquid">
+                        <img src="~/Content/images/blog/@item.image" alt="post1">
+                    </figure>
+                </div>
+            </a>
+            <div class="content">
+                <p class="highlighted">@item.writer | @item.datepost</p>
+                <a href="@Url.Action("DetailPost",new { id=item.Postid })"><p class="title-banner" style="font-size:1em">@item.Title</p></a>
+                <p class="content-banner">@item.content</p>
+            </div>
+            <div class="actions">
+                <p class="views">
+                    <!-- SVG QUICKVIEW -->
+                    <svg class="svg-quickview">
+                        <use xlink:href="#svg-quickview"></use>
+                    </svg>
+                    <!-- /SVG QUICKVIEW -->
+                    @item.view
+                </p>
+                <p class="comments">
+                    <!-- SVG COMMENT -->
+                    <svg class="svg-comment">
+                        <use xlink:href="#svg-comment"></use>
+                    </svg>
+                    <!-- /SVG COMMENT -->
+                    @item.comment
+                </p>
+            </div>
+        </li>
+        <!-- /POSTW-ITEM -->
+    }
+
+</ul>
+<!-- /POPULAR POSTS -->

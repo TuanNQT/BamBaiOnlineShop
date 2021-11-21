@@ -1,0 +1,260 @@
+﻿@model PagedList.IPagedList<BamBaiOnlineShop.Models.ShoppingCart>
+@using PagedList.Mvc;
+@using BamBaiOnlineShop.Models
+@{
+    var session = (Userlogin)Session[BamBaiOnlineShop.Models.CommonConstants.USER_SESSION];
+}
+<style>
+    @@media screen and (max-width:620px){
+
+        .product-info {
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-name {
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    }
+    .product-info {
+        display: -webkit-box;
+        -webkit-line-clamp: 7;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+<!-- SHOP -->
+<div id="shop-wrap">
+    <section id="shop" class="right">
+        <!-- SIDEBAR CONTROL -->
+        <div class="sidebar-control"></div>
+        <!-- /SIDEBAR CONTROL -->
+        <!-- SHOP SIDEBAR -->
+        <aside class="shop-sidebar checkout-cart">
+            <!-- SIDEBAR CONTROL -->
+            <svg class="svg-plus sidebar-control">
+                <use xlink:href="#svg-plus"></use>
+            </svg>
+            <!-- /SIDEBAR CONTROL -->
+            <h3 class="title">Mã khuyến mãi</h3>
+            <form class="westeros-form">
+                <input type="text" placeholder="Nhập vào mã khuyến mãi nếu có...">
+                <button class="button small">Gửi</button>
+            </form>
+
+            <h3 class="title">Thông tin</h3>
+            <!-- CART TOTAL -->
+            <div class="cart-total">
+                <!-- SUBTOTAL -->
+                <div class="subtotal">
+                    <h5>Tạm tính</h5>
+                    <h5>@((float)Model.Sum(x => x.thanhtien))</h5>
+                </div>
+                <!-- /SUBTOTAL -->
+                <!-- SUBTOTAL -->
+                <div class="subtotal">
+                    <h5>Phí vận chuyển</h5>
+                    <h5>00.0</h5>
+                </div>
+                <!-- /SUBTOTAL -->
+                <!-- SUBTOTAL -->
+                <div class="subtotal">
+                    <h5>Giảm giá</h5>
+                    <h5>-00.0</h5>
+                </div>
+                <!-- /SUBTOTAL -->
+                <!-- TOTAL -->
+                <div class="total">
+                    <h5>Tổng tiền</h5>
+                    <h5>@((float)Model.Sum(x => x.thanhtien))</h5>
+                </div>
+                <!-- /TOTAL -->
+            </div>
+            <!-- /CART TOTAL -->
+            @using (Ajax.BeginForm("addOrder", "Home",new { }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "alertsuccess", OnFailure = "alearterror",OnBegin="onLoading" }, null))
+            {
+        <button type="submit" class="button">
+            Đặt hàng
+        </button>
+                
+            }
+        </aside>
+        <!-- /SHOP SIDEBAR -->
+        <!-- SHOP PRODUCTS -->
+        <div class="shop-products shop-cart">
+            <h3 class="title">Giỏ hàng của bạn</h3>
+
+            <!-- SHOPPING CART -->
+            <div class="shopping-cart wishlist-cart">
+                <!-- ROW -->
+                <div class="row header">
+                    <!-- CELL -->
+                    <div class="cell">
+                        <h5>Sản phẩm</h5>
+                    </div>
+                    <!-- /CELL -->
+                    <!-- CELL -->
+                    <div class="cell">
+                        <h5>Đơn giá</h5>
+                    </div>
+                    <!-- /CELL -->
+                    <!-- CELL -->
+                    <div class="cell">
+                        <h5>Số lượng</h5>
+                    </div>
+                    <!-- /CELL -->
+                    <!-- CELL -->
+                    <div class="cell">
+                        <h5>Thành tiền</h5>
+                    </div>
+                    <!-- /CELL -->
+                    <!-- CELL -->
+                    <div class="cell">
+                        <h5>Chức năng</h5>
+                    </div>
+                    <!-- /CELL -->
+                </div>
+                <!-- /ROW -->
+                @foreach (var item in Model)
+                {
+                    <!-- ROW -->
+                    <div class="row">
+                        <!-- CELL -->
+                        <div class="cell cart-item">
+                            <div class="product-picture">
+                                <figure class="liquid">
+                                    <img src="~/Content/images/items/@item.Product.ProductImage" alt="product-picture">
+                                </figure>
+                            </div>
+                            <p class="highlighted">@item.Product.Category.CategoryName</p>
+                            <a href="@Url.Action("DetailProduct",new { id=item.ProductID })"> <h3 class="product-name">@item.Product.ModelName</h3></a>
+                            <p class="product-info">@item.Product.Description</p>
+                        </div>
+                        <!-- /CELL -->
+                        <!-- CELL -->
+                        <div class="cell">
+                            <p class="highlighted">@((float)item.Product.UnitCost)</p>
+                        </div>
+                        <!-- /CELL -->
+                        <!-- CELL -->
+                        <div class="cell">
+                            <!-- COUNTER -->
+                            <div class="counter">
+                                @if (item.Quantity > 1)
+                                {
+                                    using (Ajax.BeginForm("updateCartGiam", "Home", new { id = item.ProductID }, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "alertsuccess", OnFailure = "alearterror",OnBegin="onLoading" }, null))
+                                    {
+                                        <div><button class="control left" type="submit"></button></div>
+                                    }
+
+                                }
+                                <div class="value">
+                                    <h5>@item.Quantity</h5>
+                                </div>
+                                @using (Ajax.BeginForm("addCart", "Home", new { soluong = 1, id = item.ProductID}, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "alertsuccess", OnFailure = "alearterror",OnBegin="onLoading" }, null))
+                                {
+                                    <div><button class="control right" type="submit"></button></div>
+                                }
+                            </div>
+                            <!-- /COUNTER -->
+                        </div>
+                        <!-- /CELL -->
+                        <!-- CELL -->
+                        <div class="cell">
+                            <p class="highlighted">@((float)item.thanhtien)</p>
+                        </div>
+                        <!-- /CELL -->
+                        <!-- CELL -->
+                        <div class="cell buttons small" style="padding:40px">
+                            <!-- ACTIONS -->
+                            <div class="actions">
+                                @using (Ajax.BeginForm("xoaCart", "Home", new { id = item.ProductID }, new AjaxOptions() { HttpMethod = "POST", OnSuccess = "alertsuccess", OnFailure = "alearterror",OnBegin="onLoading" }, null))
+                                {
+                                   
+                                    <button type="submit">
+                                        <a class="button medium no-stock">
+                                            <!-- SVG PLUS -->
+                                            <svg class="svg-plus">
+                                                <use xlink:href="#svg-plus"></use>
+                                            </svg>
+                                            <!-- /SVG PLUS -->
+                                        </a>
+                                    </button>
+                                }
+                            </div>
+                            <!-- /ACTIONS -->
+                        </div>
+                        <!-- /CELL -->
+                    </div>
+                    <!-- /ROW -->
+                }
+                <!-- PAGER -->
+                <div id="contentPagerCartView">
+                    @Html.PagedListPager(Model, page => Url.Action("ListCart", new { page }))
+                </div>
+                <!-- /PAGER -->
+            </div>
+            <!-- /SHOPPING CART -->
+        </div>
+        <!-- /SHOP PRODUCTS -->
+    </section>
+</div>
+<!-- /SHOP -->
+<script>
+    var url = "https://bambai.online";
+/*    var url = "https://localhost:44393";*/
+    function alerterror(data) {
+        console.log(data);
+        swal({
+            title: "Lỗi gì đó!",
+            text: data.msg,
+            icon: "error",
+            button: "OK",
+            timer: 2000,
+        });
+    };
+    function alertsuccess(data) {
+        console.log(data)
+        swal({
+            title: "Thanks You!",
+            text: data.msg,
+            icon: "success",
+            button: "OK",
+            timer: 2000,
+        });
+        $.ajax({
+
+            url: url+'/Home/ListCart/',
+
+            type: 'POST',
+
+            cache: false,
+
+            success: function (result) {
+
+                $('#content-cartlist').html(result);
+            }
+
+        });
+        $.ajax({
+
+            url: url+'/Home/QuickViewCart/',
+
+            type: 'POST',
+
+            cache: false,
+
+            success: function (result) {
+
+                $('#quickviewcart').html(result);
+            }
+
+        });
+        @* $('#quickviewcart').load('/Home/QuickViewCart');*@
+    }
+</script>

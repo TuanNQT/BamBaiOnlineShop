@@ -1,0 +1,191 @@
+﻿@{
+    ViewBag.Title = "Customer";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    .btn-space {
+        margin-left: -5%;
+        background-color: cornflowerblue;
+        font-size: large;
+    }
+
+    .scrollmenu {
+        overflow: auto;
+        white-space: nowrap;
+    }
+
+        .scrollmenu a:hover {
+            background-color: #777;
+        }
+
+    #appadd {
+        white-space: nowrap;
+        overflow: hidden;
+        width: 10px;
+        height: 10px;
+        text-overflow: ellipsis;
+    }
+
+    table.gridtable {
+        font-family: tahoma;
+        line-height: 15px;
+        font-size: 12px;
+        color: #333333;
+        border-width: 1px;
+        border-color: #666666;
+        border-collapse: collapse;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    td {
+        padding-top:5px;
+        padding-bottom:5px;
+        text-align: center;
+    }
+
+    table.gridtable th {
+        border-width: 1px;
+        border-style: solid;
+        border-color: #666666;
+        height: 60px;
+        color: #FFFFFF;
+        background-color: #5A94CE; /*#66CCFF*/
+    }
+
+    table.gridtable td {
+        border-width: 1px;
+        border-style: solid;
+        border-color: #666666;
+        background-color: transparent;
+    }
+
+    #Select-b tbody tr:hover td {
+        background: none repeat scroll 0 0 #C0C0C0 /*#5A94CE*/; /*#9CF*/
+        color: #FFF;
+    }
+</style>
+
+<div class="grid-system" ng-app="CustomerApp">
+    <div class="horz-grid" ng-controller="CustomerCtrl" ng-init="GetAllData()">
+        <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#myModal" ng-click="GetCategory();clear()">
+            <img src="~/Areas/Content/images/new.png" class="img-responsive" alt="Alternate Text" />
+        </button>
+        <div class="form-group has-success">
+            <input type="text" ng-model="query[queryBy]" disabled class="form-control1" placeholder="Choose Type Search" id="SearchKey">
+        </div>
+        <label>Search By: </label>
+        <select id="dropdonwSearch" ng-model="queryBy" class="form-select form-select-sm" aria-label=".form-select-sm example">
+            <option value="FullName">Tên khách hàng</option>
+            <option value="EmailAddress">Email</option>
+        </select>
+        <table width="100%" style="table-layout:fixed;" class="gridtable" id="Select-b">
+            <tr>
+                <th width="10%">Name</th>
+                <th width="20%">Email</th>
+                <th width="20%">Password</th>
+                <th width="10%">Phone Number</th>
+                <th width="10%">Gender</th>
+                <th width="10%">Birth Day</th>
+                <th width="10%">Reset Code</th>
+                <th width="10%">Action</th>
+            </tr>
+            <tr dir-paginate="Cus in customers | itemsPerPage:5 | filter:query">
+                <td>{{Cus.FullName}}</td>
+                <td>{{Cus.EmailAddress}}</td>
+                <td>{{Cus.Password}}</td>
+                <td>{{Cus.PhoneNumber}}</td>
+                <td>{{Cus.Gender ? 'Nữ' : 'Nam'}}</td>
+                <td>{{Cus.BirthDay}}</td>
+                <td>{{Cus.ResetCode}}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning warning_33" data-toggle="modal" data-target="#myModal" ng-click="UpdateCus(Cus)"><img src="~/Areas/Content/images/edit.png" class="img-responsive" alt="Alternate Text" /></button><br />
+                    <button style="margin-top:0.3em" class="btn btn-sm btn-warning warning_33" ng-click="CheckOut(Cus)"><img src="~/Areas/Content/images/add-to-cart.png" class="img-responsive" alt="Alternate Text" /></button><br />
+                    <button style="margin-top:0.3em" class="btn btn-sm btn-danger" ng-click="DeleteCus(Cus)"><img src="~/Areas/Content/images/delete.png" class="img-responsive" alt="Alternate Text" /></button>
+                </td>
+            </tr>
+        </table>
+        <dir-pagination-controls></dir-pagination-controls>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <form name="myForm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h2 class="modal-title"><span id="spn">Add New Customer</span></h2>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Tên khách hàng</label>
+
+                                <input type="text" class="form-control1" placeholder="Tên khách hàng" ng-model="FullName" required>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Địa chỉ Email</label>
+
+                                <input type="email" class="form-control1" placeholder="Email" ng-model="EmailAddress">
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Password</label>
+
+                                <input type="text" class="form-control1" id="inputLabel3" placeholder="Password" ng-model="Password" required>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Số điện thoại</label>
+
+                                <input type="text" class="form-control1" placeholder="Phone Number" ng-model="PhoneNumber" required>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Giới tính</label>
+                                <select name="repeatSelectCart" class="form-control1" id="repeatSelectCart" ng-model="Gender" required>
+                                    <option value="false">Nam</option>
+                                    <option value="true">Nữ</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Birth Day</label>
+
+                                <input type="date" class="form-control1" placeholder="Birth Day" ng-model="BirthDay">
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label">Reset Code</label>
+
+                                <input type="text" class="form-control1" placeholder="Reset Code" ng-model="ResetCode">
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" id="btnSave" value="Submit" ng-click="InsertData()">
+                        </div>
+                    </div><!-- /.modal-content -->
+                </form>
+            </div><!-- /.modal-dialog -->
+        </div>
+    </div>
+        @Html.Hidden("CusId")
+    </div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#dropdonwSearch').change(function () {
+                if ($("#dropdonwSearch").val() != "") {
+                    document.getElementById('SearchKey').disabled = false;
+                    $('#SearchKey').attr('placeholder', "Nhập từ khóa");
+                }
+            });
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.js"></script>
+    <script src="~/AngularController/AngularCodeCustomer.js"></script>
+    <script src="~/Areas/Content/js/dirPagination.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/danialfarid-angular-file-upload/12.2.13/ng-file-upload.min.js"></script>
+}

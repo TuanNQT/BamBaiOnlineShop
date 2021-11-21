@@ -1,0 +1,14 @@
+﻿
+@{
+    ViewBag.Title = "regerror";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Message
+    </div>
+}
+<a href="@Url.Action("Index","LoginUser")">Trở lại</a>
+

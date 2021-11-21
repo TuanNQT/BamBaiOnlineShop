@@ -1,0 +1,55 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title>BamBai Shop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="BamBai Shop Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+     <link href="~/Areas/Content/css/bootstrap.min.css" rel='stylesheet' type='text/css' />
+    <!-- Custom Theme files -->
+    <link href="~/Areas/Content/css/style.css" rel='stylesheet' type='text/css' />
+    <link href="~/Areas/Content/css/font-awesome.css" rel="stylesheet">
+    <script src="~/Areas/Content/js/jquery.min.js"></script>
+    <script src="~/Areas/Content/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="login" ng-app="LoginApp">
+        <h1><a href="index.html">BamBai Shop </a></h1>
+        <div class="login-bottom" ng-controller="LoginCtrl">
+            <h2>Đăng nhập</h2>
+            <form name="formlogin">
+                <div class="col-md-6">
+                    <div class="login-mail">
+                        <input type="text" placeholder="Email" required="" ng-model="taikhoan">
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                    <div class="login-mail">
+                        <input type="password" placeholder="Password" required="" ng-model="matkhau">
+                        <i class="fa fa-lock"></i>
+                    </div>
+
+                </div>
+                <div class="col-md-6 login-do">
+                    <label class="hvr-shutter-in-horizontal login-sub">
+                        <input type="submit" value="Login" ng-click="login()">
+                    </label>
+                    <p>Bạn chưa có tài khoản?</p>
+                    <a href="@Url.Action("SignUp","LoginSigninAdmin")" class="hvr-shutter-in-horizontal">Signup</a>
+                </div>
+
+                <div class="clearfix"> </div>
+            </form>
+        </div>
+    </div>
+    <!---->
+    <!---->
+    <!--scrolling js-->
+    <script src="~/AngularController/AngularCodeLogin.js"></script>
+    <script src="~/Areas/Content/js/jquery.nicescroll.js"></script>
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Areas/Content/js/scripts.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+    <!--//scrolling js-->
+</body>
+</html>

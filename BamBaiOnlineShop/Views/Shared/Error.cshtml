@@ -1,0 +1,32 @@
+﻿@{ 
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+ }
+
+
+<!-- SECTION-NAV -->
+<div id="section-nav-wrap">
+    <section id="section-nav">
+        <p>Home / <a>404 Page not Found</a></p>
+    </section>
+</div>
+<!-- /SECTION-NAV -->
+<!-- 404 ERROR -->
+<div id="error404-wrap">
+    <section id="error404">
+        <div class="error-description">
+            <h1>Sorry!</h1>
+            <h3> @ViewBag.message</h3>
+            <a href="@Url.Action("Index","Home")" class="button">Return to home page</a>
+        </div>
+
+        <!-- ERROR PROMO -->
+        <div class="error-promo">
+            <div class="error-pin">
+                <h4>OOpss!</h4>
+            </div>
+            <img src="~/Content/images/smoke.png" alt="smoke">
+        </div>
+        <!-- /ERROR PROMO -->
+    </section>
+</div>
+<!-- /404 ERROR -->

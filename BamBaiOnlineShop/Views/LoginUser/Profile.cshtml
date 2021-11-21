@@ -1,0 +1,110 @@
+﻿@model BamBaiOnlineShop.Models.Customer
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- SECTION-NAV -->
+<div id="section-nav-wrap">
+    <section id="section-nav">
+        <p>Home / <a href="#">Profile Page</a></p>
+    </section>
+</div>
+<!-- /SECTION-NAV -->
+<!-- SHOP -->
+<div id="shop-wrap">
+    <section id="shop" class="right expandible-sidebar">
+        <!-- SIDEBAR CONTROL -->
+        <div class="sidebar-control">
+            <!-- SVG GEAR -->
+            <svg class="svg-gear">
+                <use xlink:href="#svg-gear"></use>
+            </svg>
+            <!-- /SVG GEAR -->
+        </div>
+        <!-- /SIDEBAR CONTROL -->
+        <!-- SHOP SIDEBAR -->
+        <aside class="shop-sidebar">
+            @Html.Action("Top5sphotBanner","Home")
+        </aside>
+        <!-- /SHOP SIDEBAR -->
+        <!-- SHOP PRODUCTS -->
+        <div class="shop-products">
+            <h3 class="title">Profile Page</h3>
+            <!-- PROFILE INFO -->
+            <div class="profile-info">
+                <!-- PROFILE HEADER -->
+                <h5 class="profile-header">
+                    <span>01</span>Personal Information
+                    <!-- SVG PLUS -->
+                    <svg class="plus">
+                        <rect class="vertical" x="4" width="4" height="12" />
+                        <rect y="4" width="12" height="4" />
+                    </svg>
+                    <!-- /SVG PLUS -->
+                </h5>
+                <!-- /PROFILE HEADER -->
+                <!-- PROFILE DATA -->
+                <div class="profile-data">
+                    <div class="featured-form">
+                        <form id="profile-info-form" class="westeros-form" action="@Url.Action("Change","LoginUser")" method="post">
+                            <div>
+                                <label class="rl-label"> Name</label>
+                                <input type="text" name="ten" placeholder="Enter your first name here..." value="@Model.FullName">
+                            </div>
+                            <div>
+                                <label class="rl-label">Email Address</label>
+                                <input type="text" name="email" placeholder="Enter your email address here..." value="@Model.EmailAddress">
+                            </div>
+                            <div>
+                                <label class="rl-label">Phone Number</label>
+                                <input type="text" name="phone" placeholder="Enter your phone number here..." value="@Model.PhoneNumber">
+                            </div>
+                            <div>
+                                <label class="rl-label">PassWord</label>
+                                <input type="text" name="oldpass" placeholder="Enter your new password here..." required>
+                            </div>
+
+                            <div>
+                                <label class="rl-label">Birth Date  --  @Model.BirthDay</label>
+                                <input type="date" name="birthday" placeholder="Enter your birth day" />
+                            </div>
+                            <div>
+                                <label class="rl-label">New PassWord</label>
+                                <input type="text" name="newpass" placeholder="Enter your pass word here...">
+                            </div>
+                            <br />
+                            <div class="gender">
+                                <label class="rl-label">Gender</label>
+                                @if (Model.Gender == true)
+                                {
+                                    <input type="radio" id="male" name="gender" value="false">
+                                    <label for="male"><span class="radio"><span></span></span>Nam</label>
+                                    <input type="radio" id="female" name="gender" value="true" checked>
+                                    <label for="female"><span class="radio"><span></span></span>Nữ</label>
+                                }
+                                else
+                                {
+                                    <input type="radio" id="male" name="gender" value="false" checked>
+                                    <label for="male"><span class="radio"><span></span></span>Nam</label>
+                                    <input type="radio" id="female" name="gender" value="true" >
+                                    <label for="female"><span class="radio"><span></span></span>Nữ</label>
+                                }
+
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+                <!-- /PROFILE DATA -->
+            </div>
+            <!-- /PROFILE INFO -->
+            @ViewBag.message
+            <button form="profile-info-form" class="button profile-button">Save all the changes</button>
+        </div>
+        <!-- /SHOP PRODUCTS -->
+        <div class="clearfix"></div>
+    </section>
+</div>
+<!-- /SHOP -->
